@@ -1,3 +1,7 @@
 #virtual environment, feel free to setup yours however
 venv/
 
+#environment file
+env.sh
+
+__pycache__
