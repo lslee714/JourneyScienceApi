@@ -8,8 +8,13 @@
 <br>
 <ol>
     <li>$./setup.sh</li>
+    <li>Create and adjust env.sh in root directory 
+    (/some/path/to/journey_science) 
+    Recommend using env.sh.template as a boilerplate
+    <li>$source env.sh
     <li>(Optional)$python -m unittest</li>
-    <li>$python run.py or <br>
-    if you have a env.sh setup,<br>
+    <li>$alembic upgrade heads</li>
+    <li>$python run.py or
+    if you have a env.sh setup,
     $source env.sh; flask run</li>
 </ol>
