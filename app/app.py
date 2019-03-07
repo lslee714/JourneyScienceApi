@@ -2,7 +2,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 from .blueprints import calls
-from .config import DebugConfig
+
+from configs import DebugConfig
 
 db = None
 
