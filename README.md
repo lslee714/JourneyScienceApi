@@ -9,5 +9,7 @@
 <ol>
     <li>$pip install -r requirements.txt</li>
     <li>(Optional)$python -m unittest</li>
-    <li>$python run.py or $flask run</li>
+    <li>$python run.py or <br>
+    if you have a env.sh setup,<br>
+    $source env.sh; flask run</li>
 </ol>
