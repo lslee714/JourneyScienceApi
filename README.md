@@ -14,5 +14,5 @@
     <li>$source env.sh
     <li>(Optional)$python -m unittest</li>
     <li>$alembic upgrade heads</li>
-    <li>flask run</li>
+    <li>$python run.py</li>
 </ol>
