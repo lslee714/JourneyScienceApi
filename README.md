@@ -11,8 +11,8 @@
     <li>Create and adjust env.sh in root directory 
     (/some/path/to/journey_science) 
     Recommend using env.sh.template as a boilerplate
-    <li>$source env.sh
+    <li>$source env.sh </li>
+    <li>$ alembic upgrade heads
     <li>(Optional)$python -m unittest</li>
-    <li>$alembic upgrade heads</li>
     <li>$python run.py</li>
 </ol>
