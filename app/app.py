@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-from .blueprints import calls
+from .blueprints import calls, index
 
 from configs import DebugConfig
 
@@ -11,9 +11,15 @@ def create_app(config=None):
     app = Flask(__name__)
 
     config = config or DebugConfig
-    app.register_blueprint(calls)
+    register_blueprints(app)
     app.config.from_object(config)
 
     global db
     db = SQLAlchemy(app)
     return app
+
+def register_blueprints(app):
+    """Register the blueprints"""
+    blueprints = [calls, index]
+    for bp in blueprints:
+        app.register_blueprint(bp)
