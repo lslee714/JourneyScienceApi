@@ -1,4 +1,4 @@
-"""user
+"""upload table
 
 Revision ID: 3a87b265896c
 Revises: 
@@ -35,6 +35,7 @@ def upgrade():
     op.create_table('upload',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('filepath', sa.String(), nullable=True),
+    sa.Column('ts_uploaded', sa.DateTime(), nullable=False, server_default=sa.func.now()),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('filepath'),
     **ADDITIONAL_ARGS
