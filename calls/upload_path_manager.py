@@ -20,6 +20,7 @@ class UploadPathManager:
         pathParts = map(str, [uploadedTs.year, uploadedTs.month, uploadedTs.day])
         path = self.basePath.joinpath('/'.join(pathParts))
         return str(path)
+
     @staticmethod
     def get_filename(upload, extension):
         """Return the name for an upload"""
