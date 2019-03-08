@@ -4,9 +4,17 @@
     Calls
 {% endblock %}
 
+{% block ngAttrs %}
+    ng-app="calls" ng-controller="CallsCtrl"
+{% endblock %}
+
 {% block body %}
 <main>
     <div class="alert alert-success">Did bootstrap load?</div>
-
 </main>
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='calls/_module.js') }}"></script>
+    <script src="{{ url_for('static', filename='calls/ctrl.js') }}"></script>
 {% endblock %}

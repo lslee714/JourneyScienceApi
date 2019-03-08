@@ -21,6 +21,5 @@ def create_app(config=None):
 def register_blueprints(app):
     """Register the blueprints"""
     blueprints = [calls, index]
-
     for bp in blueprints:
         app.register_blueprint(bp)
