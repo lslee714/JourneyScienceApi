@@ -1,7 +1,7 @@
 "use strict";
 (function(a, $){
     a.module("calls")
-        .controller('CallsCtrl', [function(){
-            console.log("Hello angularjs");
+        .controller('CallsCtrl', ['$scope', function($scope){
+            $scope.payload = {};
         }]);
 })(angular, jQuery)

@@ -10,11 +10,13 @@
 
 {% block body %}
 <main>
-    <div class="alert alert-success">Did bootstrap load?</div>
+    <upload-form></upload-form>
 </main>
 {% endblock %}
 
 {% block script %}
     <script src="{{ url_for('static', filename='calls/_module.js') }}"></script>
     <script src="{{ url_for('static', filename='calls/ctrl.js') }}"></script>
+    <script src="{{ url_for('static', filename='calls/upload_service.js') }}"></script>
+    <script src="{{ url_for('static', filename='calls/upload_form.js') }}"></script>
 {% endblock %}

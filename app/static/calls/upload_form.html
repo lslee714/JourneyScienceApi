@@ -1,0 +1,10 @@
+<form class='upload-form' name="uploadForm">
+    <div class="row">
+        <label class='col-md-2' for="fileInput">
+            Upload a zipped file here:
+            <small class="input-help-text">(Browse or drag & drop)</small>
+        </label>
+        <input type="file" class="form-control-file col-md-6" ng-model="payload.file" id="fileInput">
+    </div>
+    <button type="button" class="btn btn-success col-md-1 offset-md-3" ng-click="upload()">Upload</button>
+</form>
