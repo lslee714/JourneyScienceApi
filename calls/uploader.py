@@ -12,11 +12,8 @@ class Uploader:
         self.session = session
         self.pathManager = UploadPathManager(basePath)
 
-    def upload(self, fileObj):
-        """Create and upload the fileObject"""
-        fileObjPath = Path(fileObj.filename)
-        extension = fileObjPath.suffix.lstrip('.')
-        if not extension:
-            raise InvalidExtension("No extension specified, cannot upload")
-        elif extension and extension not in self.SUPPORTED_EXTENSIONS:
-            raise InvalidExtension("Unsupported extension, cannot upload")
+    def upload(self, uploadFile):
+        """Create, upload and return the fileObject"""
+        if not uploadFile.extension or (uploadFile.extension and uploadFile.extension not in self.SUPPORTED_EXTENSIONS):
+            raise InvalidExtension("Cannot upload, invalid/supported extension.")
+
