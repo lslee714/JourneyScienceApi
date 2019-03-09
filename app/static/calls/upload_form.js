@@ -29,10 +29,13 @@ angular.module("calls")
                         //angularjs is bad at file data for some reason, override angularjs serialization
                         transformRequest: angular.identity,
                         headers: {'Content-Type': undefined}
-                    }).then(function(response){
+                    }).then(
+                    function(response){
                         scope.uploadPromise = null;
+                    }, function(error){
+                        scope.handleErrors(error.data.error);
                     });
                 };
             }
         }
-    }])
+    }]);

@@ -5,4 +5,4 @@ angular.module("calls")
             var options = options || {};
             return $http.post('', postData, options);
         };
-    }])
+    }]);

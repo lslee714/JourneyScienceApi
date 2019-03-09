@@ -10,6 +10,7 @@
 
 {% block body %}
 <main>
+    <error-alert errors="errors"></error-alert>
     <upload-form file-model="uploadFile"></upload-form>
 </main>
 {% endblock %}
@@ -18,6 +19,7 @@
 
     <script src="{{ url_for('static', filename='utils/_module.js') }}"></script>
     <script src="{{ url_for('static', filename='utils/loading_button.js') }}"></script>
+    <script src="{{ url_for('static', filename='utils/error_alert.js') }}"></script>
 
     <script src="{{ url_for('static', filename='calls/_module.js') }}"></script>
     <script src="{{ url_for('static', filename='calls/ctrl.js') }}"></script>
