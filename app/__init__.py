@@ -2,11 +2,12 @@ from flask import Flask, g
 from flask_sqlalchemy import SQLAlchemy
 
 db = None
-
+app = None
 def create_app(config):
+    global app
+    global db
     app = Flask(__name__)
     app.config.from_object(config)
-    global db
 
     db = SQLAlchemy(app)
     register_blueprints(app)
