@@ -16,4 +16,7 @@ class Uploader:
         if not uploadFile.extension or (uploadFile.extension and uploadFile.extension not in self.SUPPORTED_EXTENSIONS):
             raise InvalidExtension("Cannot upload, invalid/supported extension.")
 
-        absPath = self.pathManager.get_abs_path(uploadFile)
+        uploadFilePath = self.pathManager.get_abs_path(uploadFile)
+        uploadFilePath.mkdir(parents=True, exist_ok=True)
+        with open(uploadFilePath, 'wb') as uploadWriteFile:
+            uploadWriteFile.write(uploadFile.fileObj)

@@ -1,5 +1,6 @@
+from datetime import datetime
 from unittest import TestCase
-from unittest.mock import Mock, patch, PropertyMock
+from unittest.mock import Mock, patch
 
 from models import Upload
 
@@ -35,3 +36,21 @@ class test_upload(TestCase):
         with self.assertRaises(InvalidExtension):
             testCase.upload(uploadFile)
 
+    def test_with_valid_file(self):
+        """An uploadable file should be written out to disk"""
+        testPath = '/test/path'
+        validUpload = Upload(id=1, ts_uploaded=datetime.now())
+        uploadableMockFileObj = Mock(filename='test.gz')
+        uploadFile = UploadFile(validUpload, uploadableMockFileObj)
+        writeBinaryMode = 'wb'
+
+        with patch('calls.uploader.UploadPathManager') as pathManagerMock:
+            pathManagerMock.return_value.get_abs_path.return_value = uploadableMockFileObj
+            with patch('calls.uploader.open') as openMock:
+                enterMethodMock = Mock()
+                openMock.return_value.__enter__ = enterMethodMock
+                uploader = Uploader(testPath)
+                uploader.upload(uploadFile)
+                uploadableMockFileObj.mkdir.assert_called_with(exist_ok=True, parents=True)
+                openMock.assert_called_with(uploadableMockFileObj, writeBinaryMode)
+                enterMethodMock.return_value.write.assert_called_with(uploadFile.fileObj)
