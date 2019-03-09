@@ -2,14 +2,14 @@ from pathlib import Path
 
 class UploadFile:
     """Wraps an Upload record with its file obj"""
-    def __init__(self, upload, fileObj):
+    def __init__(self, upload, fileStorage):
         self.upload = upload
-        self.fileObj = fileObj
+        self.fileStorage = fileStorage
 
     @property
     def filename(self):
         """Return the filename associated w/ the file object"""
-        return self.fileObj.filename
+        return self.fileStorage.filename
 
     @property
     def extension(self):

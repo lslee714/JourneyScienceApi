@@ -1,4 +1,5 @@
 from datetime import datetime
+from pathlib import Path
 from unittest import TestCase
 from unittest.mock import Mock, patch
 
@@ -19,9 +20,9 @@ class test_upload(TestCase):
         testCase = Uploader(testPath)
 
         upload = Upload()
-        mockFileObj = Mock(filename='test')
+        mockfileStorage = Mock(filename='test')
 
-        uploadFile = UploadFile(upload, mockFileObj)
+        uploadFile = UploadFile(upload, mockfileStorage)
         with self.assertRaises(InvalidExtension):
             testCase.upload(uploadFile)
 
@@ -31,9 +32,9 @@ class test_upload(TestCase):
         testCase = Uploader(testPath)
 
         upload = Upload()
-        mockFileObj = Mock(filename='test')
+        mockfileStorage = Mock(filename='test')
 
-        uploadFile = UploadFile(upload, mockFileObj)
+        uploadFile = UploadFile(upload, mockfileStorage)
 
         with self.assertRaises(InvalidExtension):
             testCase.upload(uploadFile)
@@ -42,17 +43,19 @@ class test_upload(TestCase):
         """An uploadable file should be written out to disk"""
         testPath = '/test/path'
         validUpload = Upload(id=1, ts_uploaded=datetime.now())
-        uploadableMockFileObj = Mock(filename='test.gz')
-        uploadFile = UploadFile(validUpload, uploadableMockFileObj)
+        uploadableMockfileStorage = Mock(filename='test.gz')
+        uploadFile = UploadFile(validUpload, uploadableMockfileStorage)
         writeBinaryMode = 'wb'
 
         with patch('calls.uploader.UploadPathManager') as pathManagerMock:
-            pathManagerMock.return_value.get_abs_path.return_value = uploadableMockFileObj
+            pathStub = Mock(return_value=f'{testPath}/{uploadableMockfileStorage.filename}')
+            pathManagerMock.return_value.get_abs_path.return_value = pathStub
             with patch('calls.uploader.open') as openMock:
                 enterMethodMock = Mock()
                 openMock.return_value.__enter__ = enterMethodMock
                 uploader = Uploader(testPath)
                 uploader.upload(uploadFile)
-                uploadableMockFileObj.mkdir.assert_called_with(exist_ok=True, parents=True)
-                openMock.assert_called_with(uploadableMockFileObj, writeBinaryMode)
-                enterMethodMock.return_value.write.assert_called_with(uploadFile.fileObj)
+                pathStub.parent.mkdir.assert_called_with(exist_ok=True, parents=True)
+                openMock.assert_called_with(pathStub, writeBinaryMode)
+                uploadFile.fileStorage.save.assert_called_with(enterMethodMock.return_value)
+                self.assertEqual(uploadFile.upload.filepath, str(pathStub))

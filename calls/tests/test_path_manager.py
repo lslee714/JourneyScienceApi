@@ -18,8 +18,8 @@ class test_get_abs_path(TestCase):
         """Attempting to get a path without an ID should raise an error"""
         pathManager = UploadPathManager(TEST_BASE_PATH)
         uploadWithNoId = Upload()
-        mockFileObj = Mock()
-        uploadFile = UploadFile(uploadWithNoId, mockFileObj)
+        mockfileStorage = Mock()
+        uploadFile = UploadFile(uploadWithNoId, mockfileStorage)
         with self.assertRaises(ValueError):
             result = pathManager.get_abs_path(uploadFile)
 
@@ -27,8 +27,8 @@ class test_get_abs_path(TestCase):
         """Attempting to get a path without a timestamp should raise an error"""
         pathManager = UploadPathManager(TEST_BASE_PATH)
         uploadWithNoTs = Upload(id='test', ts_uploaded=None)
-        mockFileObj = Mock()
-        uploadFile = UploadFile(uploadWithNoTs, mockFileObj)
+        mockfileStorage = Mock()
+        uploadFile = UploadFile(uploadWithNoTs, mockfileStorage)
         with self.assertRaises(ValueError):
             result = pathManager.get_abs_path(uploadFile)
 
@@ -37,8 +37,8 @@ class test_get_abs_path(TestCase):
         testUploadTs = datetime.now()
         validUpload = Upload(id=1, ts_uploaded=testUploadTs)
         extension = 'gz'
-        mockFileObj = Mock(filename=f'test.{extension}')
-        uploadFile = UploadFile(validUpload, mockFileObj)
+        mockfileStorage = Mock(filename=f'test.{extension}')
+        uploadFile = UploadFile(validUpload, mockfileStorage)
         expectedResult = f"{TEST_BASE_PATH}/{testUploadTs.year}/{testUploadTs.month}/{testUploadTs.day}/" + \
             f"{testUploadTs.strftime(UploadPathManager.FILENAME_FORMAT)}_{validUpload.id}.{extension}"
 

@@ -11,8 +11,8 @@ class test_extension(TestCase):
     def test_with_no_extension(self):
         """A file name with no extension should return an empty string"""
         upload = Upload()
-        mockFileObj = Mock(filename='test_file')
-        uploadFile = UploadFile(upload, mockFileObj)
+        mockfileStorage = Mock(filename='test_file')
+        uploadFile = UploadFile(upload, mockfileStorage)
         result = uploadFile.extension
         self.assertEqual(result, '')
 
@@ -21,8 +21,8 @@ class test_extension(TestCase):
         EXPECTED_EXTENSION = 'gz'
 
         upload = Upload()
-        mockFileObj = Mock(filename=f'test.file.with.a.weird.name.{EXPECTED_EXTENSION}')
-        uploadFile = UploadFile(upload, mockFileObj)
+        mockfileStorage = Mock(filename=f'test.file.with.a.weird.name.{EXPECTED_EXTENSION}')
+        uploadFile = UploadFile(upload, mockfileStorage)
         result = uploadFile.extension
         self.assertEqual(result, EXPECTED_EXTENSION)
 
@@ -31,7 +31,7 @@ class test_extension(TestCase):
         EXPECTED_EXTENSION = 'gz'
 
         upload = Upload()
-        mockFileObj = Mock(filename=f'test_file.{EXPECTED_EXTENSION}')
-        uploadFile = UploadFile(upload, mockFileObj)
+        mockfileStorage = Mock(filename=f'test_file.{EXPECTED_EXTENSION}')
+        uploadFile = UploadFile(upload, mockfileStorage)
         result = uploadFile.extension
         self.assertEqual(result, EXPECTED_EXTENSION)
