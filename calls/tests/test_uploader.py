@@ -11,6 +11,8 @@ from ..wrappers import UploadFile
 class test_upload(TestCase):
     """Tests for the upload method"""
 
+    #No/unsupported extension redundant tests for can_upload also
+
     def test_with_no_extension(self):
         """A file object with no extension is not allowed"""
         testPath = '/test/path'
