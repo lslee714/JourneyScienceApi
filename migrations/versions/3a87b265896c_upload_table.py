@@ -36,6 +36,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('filepath', sa.String(), nullable=True),
     sa.Column('ts_uploaded', sa.DateTime(), nullable=False, server_default=sa.func.now()),
+    sa.Column('source_filename', sa.String, nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('filepath'),
     **ADDITIONAL_ARGS
