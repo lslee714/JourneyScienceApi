@@ -1,6 +1,6 @@
 from flask import render_template, request, jsonify
 
-from app import db, app
+from app import db
 from app.app_config import AppConfig
 from calls import Uploader, UploadFile
 from models import Upload
