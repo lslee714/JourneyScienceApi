@@ -9,11 +9,17 @@ class UploadPathManager:
     def __init__(self, basePath):
         self.basePath = Path(basePath)
 
-    def _get_path(self, upload):
-        """Return the path for an upload record"""
-        if not isinstance(upload, Upload):
-            raise ValueError("Can only get path for Upload records")
 
+    def _get_filename(self, uploadFile):
+        """Return the name for an upload"""
+        upload = uploadFile.upload
+        if not upload.ts_uploaded:
+            raise ValueError("Upload record not yet flushed or committed, cannot get filename")
+        return upload.ts_uploaded.strftime(f"{UploadPathManager.FILENAME_FORMAT}_{upload.id}.{uploadFile.extension}")
+
+    def _get_path(self, uploadFile):
+        """Return the path for an upload record"""
+        upload = uploadFile.upload
         if not upload.id: #checking id also ensures it has a ts
             raise ValueError("Upload record not yet flushed or committed, cannot get path")
         uploadedTs = upload.ts_uploaded
@@ -21,17 +27,8 @@ class UploadPathManager:
         path = self.basePath.joinpath('/'.join(pathParts))
         return path
 
-    def _get_filename(self, upload, extension):
-        """Return the name for an upload"""
-        if not isinstance(upload, Upload):
-            raise ValueError("Can only create a filename for Upload records")
-
-        if not upload.ts_uploaded:
-            raise ValueError("Upload record not yet flushed or committed, cannot get filename")
-        return upload.ts_uploaded.strftime(f"{UploadPathManager.FILENAME_FORMAT}_{upload.id}.{extension}")
-
-    def get_abs_path(self, upload, extension):
+    def get_abs_path(self, uploadFile):
         """Return the absolute path for this upload"""
-        filename = self._get_filename(upload, extension)
-        filePath = self._get_path(upload)
+        filename = self._get_filename(uploadFile)
+        filePath = self._get_path(uploadFile)
         return str(filePath.joinpath(filename))
