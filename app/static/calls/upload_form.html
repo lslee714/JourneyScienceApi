@@ -1,12 +1,12 @@
 <form class='upload-form' name="uploadForm">
+    <label for="file-input">
+        Upload a zipped file here:
+    </label>
     <div class="row">
-        <label class='col-md-2' for="file-input">
-            Upload a zipped file here:
-            <small class="input-help-text">(Browse or drag & drop)</small>
-        </label>
-        <input type="file" class="form-control-file col-md-6" id="file-input">
+        <input title='Browse or drag & drop' type="file" class="form-control-file col-md-8" id="file-input">
+        <button type="button" ng-disabled="!hasFile" loading-button="uploadPromise"
+                class="btn btn-success col-md-4" ng-click="upload()">
+            Upload
+        </button>
     </div>
-    <button type="button" ng-disabled="!hasFile" loading-button="uploadPromise" class="btn btn-success col-md-1 offset-md-3" ng-click="upload()">
-        Upload
-    </button>
 </form>

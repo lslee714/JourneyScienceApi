@@ -1,16 +1,19 @@
 from contextlib import contextmanager
 from flask import Flask, g
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
-db = None
+session = None
 app = None
 def create_app(config):
     global app
-    global db
+    global session
     app = Flask(__name__)
     app.config.from_object(config)
 
-    db = SQLAlchemy(app)
+    engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
+    Session = sessionmaker(bind=engine)
+    session = Session()
     register_blueprints(app)
     return app
 

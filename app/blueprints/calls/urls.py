@@ -1,6 +1,6 @@
 from flask import render_template, request, jsonify
 
-from app import db
+from app import session
 from app.app_config import AppConfig
 from calls import Uploader, UploadFile
 from models import Upload
@@ -22,10 +22,10 @@ def register(blueprint):
         newUpload = Upload()
         uploadFile = UploadFile(newUpload, fileStorage)
         if uploader.can_upload(uploadFile):
-            db.session.add(newUpload)
-            db.session.flush() #Give uploader access to id/ts
+            session.add(newUpload)
+            session.flush() #Give uploader access to id/ts
             uploader.upload(uploadFile)
-            db.session.commit()
+            session.commit()
             return jsonify({})
         else:
             return jsonify({'error': 'Failed to upload, please ensure the file is uploadable'}), 500
@@ -33,5 +33,5 @@ def register(blueprint):
     @blueprint.route('/uploads')
     def retrieve_uploads():
         """Send the current uploads to the client"""
-        uploads = db.session.query(Upload).order_by(Upload.ts_uploaded.desc()).all()
+        uploads = session.query(Upload).order_by(Upload.ts_uploaded.desc()).all()
         return jsonify({'data': [UploadJson(upload)() for upload in uploads]})
