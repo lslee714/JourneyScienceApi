@@ -1,3 +1,4 @@
+from contextlib import contextmanager
 from flask import Flask, g
 from flask_sqlalchemy import SQLAlchemy
 
@@ -12,6 +13,12 @@ def create_app(config):
     db = SQLAlchemy(app)
     register_blueprints(app)
     return app
+
+@contextmanager
+def create_app_context(config):
+    """Yield the app, used for testing"""
+    app = create_app(config)
+    yield app
 
 def register_blueprints(app):
     """Register the blueprints"""

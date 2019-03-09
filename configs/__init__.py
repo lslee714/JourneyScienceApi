@@ -1,3 +1,2 @@
 from .base import Config
-from .debug import DebugConfig
-from .production import ProductionConfig
+from .get_config import get_config
