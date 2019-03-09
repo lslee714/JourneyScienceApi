@@ -9,7 +9,7 @@ def get_config(option):
     }
     config = configMapping.get(option)
     if not config:
-        config = Config
+        config = DebugConfig
 
     return config
 
