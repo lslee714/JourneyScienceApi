@@ -6,5 +6,7 @@
         </label>
         <input type="file" class="form-control-file col-md-6" id="file-input">
     </div>
-    <button type="button" class="btn btn-success col-md-1 offset-md-3" ng-click="upload()">Upload</button>
+    <button type="button" ng-disabled="!hasFile" loading-button="uploadPromise" class="btn btn-success col-md-1 offset-md-3" ng-click="upload()">
+        Upload
+    </button>
 </form>

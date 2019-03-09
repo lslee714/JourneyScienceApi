@@ -6,24 +6,31 @@ angular.module("calls")
             replace: true,
             templateUrl: '/static/calls/upload_form.html',
             link: function(scope, elem, attrs){
+                scope.hasFile = false;
                 var model = $parse(attrs.fileModel);
                 var modelSetter = model.assign;
-                var fileInput = $('#file-input');
+                var fileInput = elem.find('#file-input');
                 fileInput.bind('change', function(){
                     scope.$apply(function(){
-                        modelSetter(scope, fileInput[0].files[0]);
+                        var files = fileInput[0].files[0];
+                        if(files){
+                            modelSetter(scope, fileInput[0].files[0]);
+                            scope.hasFile = true;
+                        }else{
+                            scope.hasFile = false;
+                        }
                     });
                 });
-
+                scope.uploadPromise = null;
                 scope.upload = function(){
                     var formData = new FormData();
                     formData.append('file', scope.uploadFile);
-                    UploadApiService.post(formData, {
+                    scope.uploadPromise = UploadApiService.post(formData, {
                         //angularjs is bad at file data for some reason, override angularjs serialization
                         transformRequest: angular.identity,
                         headers: {'Content-Type': undefined}
                     }).then(function(response){
-                        console.log(response);
+                        scope.uploadPromise = null;
                     });
                 };
             }

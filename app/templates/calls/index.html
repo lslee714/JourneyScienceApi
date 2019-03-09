@@ -15,6 +15,10 @@
 {% endblock %}
 
 {% block script %}
+
+    <script src="{{ url_for('static', filename='utils/_module.js') }}"></script>
+    <script src="{{ url_for('static', filename='utils/loading_button.js') }}"></script>
+
     <script src="{{ url_for('static', filename='calls/_module.js') }}"></script>
     <script src="{{ url_for('static', filename='calls/ctrl.js') }}"></script>
     <script src="{{ url_for('static', filename='calls/upload_service.js') }}"></script>
