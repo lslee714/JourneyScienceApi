@@ -1,29 +1,39 @@
 from unittest import TestCase
 from unittest.mock import Mock, patch, PropertyMock
 
+from models import Upload
+
 from ..exc import InvalidExtension
 from ..uploader import Uploader
+from ..wrappers import UploadFile
 
 class test_upload(TestCase):
     """Tests for the upload method"""
 
-    def test_with_invalid_extension(self):
+    def test_with_no_extension(self):
         """A file object with no extension is not allowed"""
         sessionMock = Mock()
         testPath = '/test/path'
         testCase = Uploader(sessionMock, testPath)
 
-        fileMock = Mock(filename='test')
-        with self.assertRaises(InvalidExtension):
-            testCase.upload(fileMock)
+        upload = Upload()
+        mockFileObj = Mock(filename='test')
 
-    def test_with_invalid_extension(self):
-        """A file object with an invalid extension is not allowed"""
+        uploadFile = UploadFile(upload, mockFileObj)
+        with self.assertRaises(InvalidExtension):
+            testCase.upload(uploadFile)
+
+    def test_with_unsupported_extension(self):
+        """A file object with an unsupported extension is not allowed"""
         sessionMock = Mock()
         testPath = '/test/path'
         testCase = Uploader(sessionMock, testPath)
 
-        fileMock = Mock(filename='test.test')
+        upload = Upload()
+        mockFileObj = Mock(filename='test')
+
+        uploadFile = UploadFile(upload, mockFileObj)
+
         with self.assertRaises(InvalidExtension):
-            testCase.upload(fileMock)
+            testCase.upload(uploadFile)
 
