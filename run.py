@@ -1,18 +1,6 @@
 from app import create_app
-from configs import Config, ProductionConfig, DebugConfig
 
-def get_config(option):
-    """ Return the config """
-    configMapping = {
-        'debug': DebugConfig,
-        'live': ProductionConfig
-    }
-    config = configMapping.get(option)
-    if not config:
-        config = DebugConfig
-
-    return config
-
+from configs import get_config
 
 if __name__ == '__main__':
     import argparse
