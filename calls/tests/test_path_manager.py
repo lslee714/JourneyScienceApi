@@ -44,4 +44,4 @@ class test_get_abs_path(TestCase):
 
 
         result = UploadPathManager(TEST_BASE_PATH).get_abs_path(uploadFile)
-        self.assertEqual(result, expectedResult)
+        self.assertEqual(str(result), expectedResult)

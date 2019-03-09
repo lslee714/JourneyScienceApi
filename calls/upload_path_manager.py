@@ -31,4 +31,4 @@ class UploadPathManager:
         """Return the absolute path for this upload"""
         filename = self._get_filename(uploadFile)
         filePath = self._get_path(uploadFile)
-        return str(filePath.joinpath(filename))
+        return filePath.joinpath(filename)
