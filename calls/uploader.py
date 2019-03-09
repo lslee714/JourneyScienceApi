@@ -8,8 +8,7 @@ class Uploader:
     """Uploads calls"""
     SUPPORTED_EXTENSIONS = frozenset({'gz', 'zip'})
 
-    def __init__(self, session, basePath):
-        self.session = session
+    def __init__(self, basePath):
         self.pathManager = UploadPathManager(basePath)
 
     def upload(self, uploadFile):
@@ -17,3 +16,4 @@ class Uploader:
         if not uploadFile.extension or (uploadFile.extension and uploadFile.extension not in self.SUPPORTED_EXTENSIONS):
             raise InvalidExtension("Cannot upload, invalid/supported extension.")
 
+        absPath = self.pathManager.get_abs_path(uploadFile)

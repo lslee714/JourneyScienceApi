@@ -12,9 +12,8 @@ class test_upload(TestCase):
 
     def test_with_no_extension(self):
         """A file object with no extension is not allowed"""
-        sessionMock = Mock()
         testPath = '/test/path'
-        testCase = Uploader(sessionMock, testPath)
+        testCase = Uploader(testPath)
 
         upload = Upload()
         mockFileObj = Mock(filename='test')
@@ -25,9 +24,8 @@ class test_upload(TestCase):
 
     def test_with_unsupported_extension(self):
         """A file object with an unsupported extension is not allowed"""
-        sessionMock = Mock()
         testPath = '/test/path'
-        testCase = Uploader(sessionMock, testPath)
+        testCase = Uploader(testPath)
 
         upload = Upload()
         mockFileObj = Mock(filename='test')
