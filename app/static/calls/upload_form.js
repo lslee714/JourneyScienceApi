@@ -33,7 +33,7 @@ angular.module("calls")
                     function(response){
                         scope.uploadPromise = null;
                     }, function(error){
-                        scope.handleErrors(error.data.error);
+                        scope.handleErrors(error.data);
                     });
                 };
             }

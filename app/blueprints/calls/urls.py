@@ -5,6 +5,7 @@ from app.app_config import AppConfig
 from calls import Uploader, UploadFile
 from models import Upload
 
+
 def register(blueprint):
     """Register the routes for the blueprint"""
     @blueprint.route('/')
