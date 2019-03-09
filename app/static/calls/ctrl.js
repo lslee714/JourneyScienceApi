@@ -1,7 +1,6 @@
 "use strict";
 angular.module("calls")
-    .controller('CallsCtrl', ['$scope', function($scope){
-        $scope.payload = {};
+    .controller('CallsCtrl', ['$scope', 'UploadApiService', function($scope, UploadApiService){
         $scope.errors = [];
         $scope.handleErrors = function(error) {
             var errorMsg = error.error;
@@ -14,4 +13,21 @@ angular.module("calls")
                 $scope.errors.push(errorMsg);
             }
         };
+
+
+        $scope.payload = {};
+        $scope.uploads = [];
+
+        $scope.load = function(){
+            UploadApiService.getUploads().then(
+                function(response){
+                    var responseData = response.data;
+                    angular.extend($scope.uploads, responseData.data);
+                },function(error){
+                    $scope.handleErrors(error.data)
+                }
+            )
+        };
+        $scope.load();
+
     }]);

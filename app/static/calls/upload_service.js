@@ -1,8 +1,13 @@
 "use strict";
 angular.module("calls")
     .service('UploadApiService', ['$http', function($http){
-        this.post = function(postData, options){
+        this.getUploads = function(){
+            var uploadUrl = 'uploads';
+            return $http.get(uploadUrl);
+        };
+
+        this.createUpload = function(uploadData, options){
             var options = options || {};
-            return $http.post('', postData, options);
+            return $http.post('', uploadData, options);
         };
     }]);

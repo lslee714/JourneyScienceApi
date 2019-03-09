@@ -25,7 +25,7 @@ angular.module("calls")
                 scope.upload = function(){
                     var formData = new FormData();
                     formData.append('file', scope.uploadFile);
-                    scope.uploadPromise = UploadApiService.post(formData, {
+                    scope.uploadPromise = UploadApiService.createUpload(formData, {
                         //angularjs is bad at file data for some reason, override angularjs serialization
                         transformRequest: angular.identity,
                         headers: {'Content-Type': undefined}
