@@ -5,6 +5,7 @@ from app.app_config import AppConfig
 from calls import Uploader, UploadFile
 from models import Upload
 
+from .helpers import UploadJson
 
 def register(blueprint):
     """Register the routes for the blueprint"""
@@ -28,3 +29,9 @@ def register(blueprint):
             return jsonify({})
         else:
             return jsonify({'error': 'Failed to upload, please ensure the file is uploadable'}), 500
+
+    @blueprint.route('/uploads')
+    def retrieve_uploads():
+        """Send the current uploads to the client"""
+        uploads = db.session.query(Upload).order_by(Upload.ts_uploaded.desc()).all()
+        return jsonify({'data': [UploadJson(upload)() for upload in uploads]})
