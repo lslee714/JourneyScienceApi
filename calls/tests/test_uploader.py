@@ -59,3 +59,4 @@ class test_upload(TestCase):
                 openMock.assert_called_with(pathStub, writeBinaryMode)
                 uploadFile.fileStorage.save.assert_called_with(enterMethodMock.return_value)
                 self.assertEqual(uploadFile.upload.filepath, str(pathStub))
+                self.assertEqual(uploadFile.upload.source_filename, uploadableMockfileStorage.filename)

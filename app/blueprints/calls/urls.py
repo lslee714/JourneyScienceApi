@@ -19,7 +19,7 @@ def register(blueprint):
         """Create a new Upload record and upload it appropriately"""
         fileStorage = request.files['file']
         uploader = Uploader(AppConfig.BASE_UPLOAD_PATH)
-        newUpload = Upload()
+        newUpload = Upload(source_filename=fileStorage.filename)
         uploadFile = UploadFile(newUpload, fileStorage)
         if uploader.can_upload(uploadFile):
             session.add(newUpload)

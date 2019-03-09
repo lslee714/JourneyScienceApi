@@ -19,11 +19,13 @@ class test_call(TestCase):
         """A flushed and available upload should return its id and uploaded ts"""
         id = 1
         ts = datetime.now()
-        upload = Upload(id=id, ts_uploaded=ts)
+        filename = 'test.gz'
+        upload = Upload(id=id, ts_uploaded=ts, source_filename=filename)
         uploadJson = UploadJson(upload)
 
         expectedResult = {
             'id': id,
-            'ts': ts.isoformat()
+            'ts': ts.isoformat(),
+            'filename': filename
         }
         self.assertEqual(uploadJson(), expectedResult)

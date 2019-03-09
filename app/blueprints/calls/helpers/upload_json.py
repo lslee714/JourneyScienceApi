@@ -11,7 +11,9 @@ class UploadJson:
             return {}
         id = self.upload.id
         ts = self.upload.ts_uploaded.isoformat()
+        filename = self.upload.source_filename
         return {
             'id': id,
-            'ts': ts
+            'ts': ts,
+            'filename': filename
         }

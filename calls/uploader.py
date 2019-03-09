@@ -17,6 +17,7 @@ class Uploader:
         uploadFilePath.parent.mkdir(parents=True, exist_ok=True)
         with open(uploadFilePath, 'wb') as uploadWriteFile:
             uploadFile.fileStorage.save(uploadWriteFile)
+        uploadFile.upload.source_filename = uploadFile.filename
         uploadFile.upload.filepath = str(uploadFilePath)
 
     @staticmethod
