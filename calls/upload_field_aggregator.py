@@ -1,9 +1,10 @@
-from models import Upload
-
 from utils import chunkify_big_json
 
 class UploadFieldAggregator:
     """Given a field, returns a json of an aggregate function of that field requested Uploads """
+    MIN_OPERATION = 'min'
+    MAX_OPERATION = 'max'
+    MEAN_OPERATION = 'mean'
 
     def __init__(self, uploads):
         self.uploads = uploads
@@ -11,9 +12,9 @@ class UploadFieldAggregator:
     def aggregate(self, field, operation):
         """Aggregate the field"""
         operationMap = {
-            'min': self.get_aggregate_min,
-            'max': self.get_aggregate_max,
-            'mean': self.get_aggregate_mean
+            self.MIN_OPERATION: self.get_aggregate_min,
+            self.MAX_OPERATION: self.get_aggregate_max,
+            self.MEAN_OPERATION: self.get_aggregate_mean
         }
         operation = operationMap[operation]
         return operation(field)
@@ -25,17 +26,22 @@ class UploadFieldAggregator:
             chunks = chunkify_big_json(upload.filepath)
             for chunk in chunks:
                 chunkVal = getattr(chunk[field], op)()
-                if value is None or value > chunkVal:
+                if value is None:
                     value = chunkVal
+                elif value > chunkVal and op == self.MIN_OPERATION:
+                    value = chunkVal
+                elif value < chunkVal and op == self.MIN_OPERATION:
+                    value = chunkVal
+
         return value
 
     def get_aggregate_min(self, field):
         """Get the aggregate min"""
-        return self._get_min_max(field, 'min')
+        return self._get_min_max(field, self.MIN_OPERATION)
 
     def get_aggregate_max(self, field):
         """Get the aggregate max"""
-        return self._get_min_max(field, 'max')
+        return self._get_min_max(field, self.MAX_OPERATION)
 
     def get_aggregate_mean(self, field):
         """Get the aggregate mean"""

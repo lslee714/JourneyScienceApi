@@ -1,8 +1,9 @@
-from flask import render_template, request, jsonify, abort, send_file
+from flask import render_template, request, jsonify, abort, send_from_directory
+from pathlib import Path
 
 from app import session
 from app.app_config import AppConfig
-from calls import Uploader, UploadFile
+from calls import Uploader, UploadFile, UploadFieldAggregator
 from models import Upload
 
 from .helpers import UploadJson
@@ -42,10 +43,18 @@ def register(blueprint):
         upload = session.query(Upload).get(idUpload)
         if not upload:
             abort(404)
-        return send_file(upload.filepath)
+        filePath = Path(upload.filepath)
+        return send_from_directory(filePath.parent, filePath.name, as_attachment=True,
+                         attachment_filename=upload.source_filename)
 
     @blueprint.route('/fields')
     def get_aggregated_field():
         """Return the requested field as a file"""
         aggregateQuery = request.args
-        return jsonify({})
+        operation = aggregateQuery['aggregate']
+        field = aggregateQuery['field']
+        uploadIds = aggregateQuery.getlist('uploads')
+        uploadsToAggregate = session.query(Upload).filter(Upload.id.in_(uploadIds))
+        aggregator = UploadFieldAggregator(uploadsToAggregate)
+        aggregatedValue = aggregator.aggregate(field, operation)
+        return jsonify({'data': f'The {operation} of requested uploads is {aggregatedValue}'})

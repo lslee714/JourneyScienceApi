@@ -13,6 +13,7 @@
 {% endblock %}
 
 {% block body %}
+    <success-alert messages="messages"></success-alert>
     <error-alert errors="errors"></error-alert>
     <div class="row">
         <div class="col-md-4">
@@ -45,8 +46,8 @@
     <script src="{{ url_for('static', filename='utils/_module.js') }}"></script>
     <script src="{{ url_for('static', filename='utils/loading_button.js') }}"></script>
     <script src="{{ url_for('static', filename='utils/error_alert.js') }}"></script>
+    <script src="{{ url_for('static', filename='utils/success_alert.js') }}"></script>
     <script src="{{ url_for('static', filename='utils/td_checkbox.js') }}"></script>
-
 
     <script src="{{ url_for('static', filename='calls/_module.js') }}"></script>
     <script src="{{ url_for('static', filename='calls/ctrl.js') }}"></script>
