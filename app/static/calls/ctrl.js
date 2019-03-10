@@ -14,7 +14,6 @@ angular.module("calls")
             }
         };
 
-
         $scope.payload = {};
         $scope.uploads = [];
 
