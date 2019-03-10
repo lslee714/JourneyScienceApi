@@ -4,6 +4,7 @@ from pathlib import Path
 from app import session
 from app.app_config import AppConfig
 from calls import Uploader, UploadFile, UploadFieldAggregator
+from calls.wrappers import AggregateField
 from models import Upload
 
 from .helpers import UploadJson
@@ -51,10 +52,13 @@ def register(blueprint):
     def get_aggregated_field():
         """Return the requested field as a file"""
         aggregateQuery = request.args
-        operation = aggregateQuery['aggregate']
-        field = aggregateQuery['field']
-        uploadIds = aggregateQuery.getlist('uploads')
-        uploadsToAggregate = session.query(Upload).filter(Upload.id.in_(uploadIds))
+        operationQuery = aggregateQuery['aggregate']
+        fieldQuery = aggregateQuery['field'].strip()
+        uploadIdsQuery = aggregateQuery.getlist('uploads')
+        uploadsToAggregate = session.query(Upload).filter(Upload.id.in_(uploadIdsQuery))
         aggregator = UploadFieldAggregator(uploadsToAggregate)
-        aggregatedValue = aggregator.aggregate(field, operation)
-        return jsonify({'data': f'The {operation} of requested uploads is {aggregatedValue}'})
+
+        aggregateFieldArgs = [queryArg.strip() for queryArg in fieldQuery.split(',')]
+        aggregateField = AggregateField(*aggregateFieldArgs)
+        aggregatedValue = aggregator.aggregate(aggregateField, operationQuery)
+        return jsonify({'data': f'The {operationQuery} of {fieldQuery} is {aggregatedValue}'})
