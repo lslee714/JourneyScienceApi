@@ -27,11 +27,14 @@ class test_call(TestCase):
         #Not ideal, but this is a unittest so remove flask integration dependency
         #I could hardcode or hack the test script more to get the app
         #but I "expect" url_for from flask to not be broken
-        uploadJson = uploadJson().pop('downloadUrl')
+        #This could work without popping and putting a url_for in here too, but
+        #that makes me uncomfortable
+        uploadJsonData = uploadJson()
+        uploadJsonData.pop('downloadUrl')
 
         expectedResult = {
             'id': id,
             'ts': ts.isoformat(),
             'filename': filename,
         }
-        self.assertEqual(uploadJson(), expectedResult)
+        self.assertEqual(uploadJsonData, expectedResult)

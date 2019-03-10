@@ -3,7 +3,7 @@ from unittest import defaultTestLoader, TextTestRunner
 
 from configs import get_config
 
-from app import create_app_context
+from app import create_app
 
 if __name__ == '__main__':
 
@@ -19,7 +19,8 @@ if __name__ == '__main__':
 
     appConfig = get_config(args.config)
 
-    with create_app_context(config=appConfig) as app:
+    app = create_app(appConfig)
+    with app.test_request_context() as appContext:
         discoveredTests = defaultTestLoader.discover('.')
         runner = TextTestRunner(verbosity=verbosity)
         runner.run(discoveredTests)

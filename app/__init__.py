@@ -1,4 +1,3 @@
-from contextlib import contextmanager
 from flask import Flask, g
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -16,12 +15,6 @@ def create_app(config):
     session = Session()
     register_blueprints(app)
     return app
-
-@contextmanager
-def create_app_context(config):
-    """Yield the app, used for testing"""
-    app = create_app(config)
-    yield app
 
 def register_blueprints(app):
     """Register the blueprints"""
