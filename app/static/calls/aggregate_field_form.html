@@ -1,6 +1,12 @@
 <form name="aggregateFieldForm" class="aggregate-form">
     <label for="field-input">
-        <strong>Aggregate Field (exact match):</strong>
+        <strong>Aggregate Field of Selected (exact match):</strong><br>
+        <small>
+            Access nested values with commas<br>
+            (e.g. non-nested: 'session_steps')<br>
+            (e.g. nested: 'session_attributes, seg.prev_stmt_bal') <br>
+            (e.g. nested, multiple: for second position, 'events, 2, events_occur')
+        </small>
     </label>
     <div class="row">
         <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
