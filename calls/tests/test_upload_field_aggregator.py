@@ -7,6 +7,8 @@ from models import Upload
 
 from ..exc import UnknownOperation
 from ..upload_field_aggregator import UploadFieldAggregator
+from ..wrappers import AggregateField
+
 
 class test_get_method_for_operation(TestCase):
     """Test cases for the get_method_for_operation test case"""
@@ -50,7 +52,6 @@ class ChunkWithMinMax:
         """Implement the max() interface"""
         return self.value
 
-
 class test_get_aggregate_min(TestCase):
     """Test cases for the get_aggregate_min method"""
 
@@ -59,7 +60,7 @@ class test_get_aggregate_min(TestCase):
         uploads = [Upload() for i in range(5)]
         testAggregator = UploadFieldAggregator(uploads)
 
-        testField = 'test'
+        testField = AggregateField(*['test'])
 
         sameVals = [0 for i in range(5)]
         mockedReturnVals = [ChunkWithMinMax(v) for v in sameVals]
@@ -74,7 +75,7 @@ class test_get_aggregate_min(TestCase):
         uploads = [Upload() for i in range(5)]
         testAggregator = UploadFieldAggregator(uploads)
 
-        testField = 'test'
+        testField = AggregateField(*['test'])
 
         randomVals = [random.choice([i for i in range(5)]) for i in range(5)]
         mockedReturnVals = [ChunkWithMinMax(v) for v in randomVals]
@@ -92,7 +93,7 @@ class test_get_aggregate_max(TestCase):
         uploads = [Upload() for i in range(5)]
         testAggregator = UploadFieldAggregator(uploads)
 
-        testField = 'test'
+        testField = AggregateField(*['test'])
 
         sameVals = [0 for i in range(5)]
         mockedReturnVals = [ChunkWithMinMax(v) for v in sameVals]
@@ -108,7 +109,7 @@ class test_get_aggregate_max(TestCase):
         uploads = [Upload() for i in range(5)]
         testAggregator = UploadFieldAggregator(uploads)
 
-        testField = 'test'
+        testField = AggregateField(*['test'])
 
         randomVals = [random.choice([i for i in range(5)]) for i in range(5)]
         mockedReturnVals = [ChunkWithMinMax(v) for v in randomVals]
@@ -118,3 +119,73 @@ class test_get_aggregate_max(TestCase):
 
             result = testAggregator.get_aggregate_max(testField)
             self.assertEqual(result, max(randomVals))
+
+
+class test_get_chunk_member(TestCase):
+    """Test cases for get_chunk_member"""
+
+    def test_with_no_field_names_and_no_position(self):
+        """Given an aggregate field with only a name, method should return the corresponding value """
+        query = 'testA'
+        testChunkStub = {
+            query: 'foo',
+            'testB': 'foo'
+        }
+        uploads = [Upload() for i in range(5)]
+        aggregator = UploadFieldAggregator(uploads)
+        aggregateField = AggregateField(query)
+
+        result = aggregator.get_chunk_member(testChunkStub, aggregateField)
+        expectedVal = testChunkStub[query]
+        self.assertEqual(result, expectedVal)
+
+    def test_with_only_position(self):
+        """Given an aggregate field with a position, method should return the corresponding value for the key"""
+        queryArgs = ['testA', '1']
+        correspondingPosition = int(queryArgs[1]) - 1#aggregate field accounts for 0 based indexing
+        testChunkStub = {
+            'testA': ['foo', 'bar', 'hello', 'world'],
+            'testB': 'foo'
+        }
+        uploads = [Upload() for i in range(5)]
+        aggregator = UploadFieldAggregator(uploads)
+        aggregateField = AggregateField(*queryArgs)
+
+        result = aggregator.get_chunk_member(testChunkStub, aggregateField)
+        expectedVal = testChunkStub[queryArgs[0]][correspondingPosition]
+        self.assertEqual(result, expectedVal)
+
+    def test_with_only_nested_fields(self):
+        """Given an aggregate field with only additional nested fields, should return the corresponding value"""
+        queryArgs = ['testA', 'testAnestedVal']
+        testChunkStub = {
+            'testA': {'testAnestedVal': 'hi'},
+            'testB': 'foo'
+        }
+        uploads = [Upload() for i in range(5)]
+        aggregator = UploadFieldAggregator(uploads)
+        aggregateField = AggregateField(*queryArgs)
+
+        result = aggregator.get_chunk_member(testChunkStub, aggregateField)
+        expectedVal = testChunkStub[queryArgs[0]][queryArgs[1]]
+        self.assertEqual(result, expectedVal)
+
+    def test_with_nested_fields_and_position(self):
+        """Given an aggregate field with both additional nested fields and position,
+         should return the corresponding key value for the position"""
+        queryArgs = ['testA', '2', 'testAnestedVal', 'anotherLayer']
+        desiredValue = 'find me!'
+        testChunkStub = {
+            'testA': [{'testAnestedVal': {'anotherLayer': 'dont find me'}},
+                      {'testAnestedVal': {'anotherLayer': desiredValue}},
+                      {'testAnestedVal': {'anotherLayer': 'dont find me'}}],
+            'testB': 'foo'
+        }
+
+        uploads = [Upload() for i in range(5)]
+        aggregator = UploadFieldAggregator(uploads)
+        aggregateField = AggregateField(*queryArgs)
+
+        result = aggregator.get_chunk_member(testChunkStub, aggregateField)
+        expectedVal = desiredValue
+        self.assertEqual(result, expectedVal)

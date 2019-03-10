@@ -4,9 +4,9 @@ from copy import copy
 class AggregateField:
     """Wrappper class to provide convenience in finding a specific field"""
     def __init__(self, *fieldArgs):
-        print("PASSED IN ", fieldArgs)
         if not fieldArgs:
             raise TypeError("At least one argument is required")
+        fieldArgs = list(fieldArgs)
         self.name = fieldArgs[0]
 
         self.nestedArgs = fieldArgs[1:]
