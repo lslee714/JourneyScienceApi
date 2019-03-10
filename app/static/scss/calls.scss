@@ -1,11 +1,17 @@
+$nice-spacing: 20px;
+
 .contents {
     margin-top: 50px;
-}
-
-.upload-form {
-    position: fixed;
-    margin-left: 20px;
-    margin-top: 20px;
+    .upload-form {
+        position: fixed;
+        margin-left: $nice-spacing;
+        margin-top: $nice-spacing;
+    }
+    .aggregate-form {
+        position: fixed;
+        margin-top: 125px;
+        margin-left: $nice-spacing;
+    }
 }
 
 .journey-science-nav {

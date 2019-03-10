@@ -16,7 +16,10 @@
     <error-alert errors="errors"></error-alert>
     <div class="row">
         <div class="col-md-4">
-            <upload-form file-model="uploadFile"></upload-form>
+            <div class="clearfix">
+                <upload-form file-model="uploadFile"></upload-form>
+                <aggregate-field-form></aggregate-field-form>
+            </div>
         </div>
         <div class="col-md-8">
             <table class="table table-striped">
@@ -45,8 +48,9 @@
 
     <script src="{{ url_for('static', filename='calls/_module.js') }}"></script>
     <script src="{{ url_for('static', filename='calls/ctrl.js') }}"></script>
-    <script src="{{ url_for('static', filename='calls/upload_service.js') }}"></script>
+    <script src="{{ url_for('static', filename='calls/service.js') }}"></script>
     <script src="{{ url_for('static', filename='calls/upload_form.js') }}"></script>
     <script src="{{ url_for('static', filename='calls/upload_tr.js') }}"></script>
+    <script src="{{ url_for('static', filename='calls/aggregate_field_form.js') }}"></script>
 
 {% endblock %}
