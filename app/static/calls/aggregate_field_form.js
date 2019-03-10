@@ -15,12 +15,10 @@ angular.module('calls')
                     scope.getAggregatePromise.then(
                         function(response){
                             scope.handleResponse(response.data);
-                        }, function(error){
+                        }).catch(function(error){
                             scope.handleErrors(error.data);
-                        }
-                    );
+                        });
                 };
             }
         }
-
     }])

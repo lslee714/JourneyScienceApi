@@ -28,10 +28,10 @@ angular.module("calls")
                 function(response){
                    var responseData = response.data;
                    $scope.uploads = responseData.data;
-                },function(error){
+                }).catch(function(error){
                     $scope.handleErrors(error.data)
-                }
-            )
+                });
+
         };
         $scope.load();
 
