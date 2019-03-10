@@ -1,5 +1,7 @@
 from utils import chunkify_big_json
 
+from .exc import UnknownOperation
+
 class UploadFieldAggregator:
     """Given a field, returns a json of an aggregate function of that field requested Uploads """
     MIN_OPERATION = 'min'
@@ -9,15 +11,21 @@ class UploadFieldAggregator:
     def __init__(self, uploads):
         self.uploads = uploads
 
-    def aggregate(self, field, operation):
-        """Aggregate the field"""
+    def get_method_for_operation(self, operation):
+        """Return the associated method for the operation"""
         operationMap = {
             self.MIN_OPERATION: self.get_aggregate_min,
             self.MAX_OPERATION: self.get_aggregate_max,
             self.MEAN_OPERATION: self.get_aggregate_mean
         }
-        operation = operationMap[operation]
-        return operation(field)
+        if operation not in operationMap:
+            raise UnknownOperation(f"Requested operation {operation} unknown/not yet implemented.")
+        return operationMap[operation]
+
+    def aggregate(self, field, operation):
+        """Aggregate the field"""
+        method = self.get_method_for_operation(operation)
+        return method(field)
 
     def _get_min_max(self, field, op):
         """Common functionality between aggregating min/max"""
@@ -30,9 +38,8 @@ class UploadFieldAggregator:
                     value = chunkVal
                 elif value > chunkVal and op == self.MIN_OPERATION:
                     value = chunkVal
-                elif value < chunkVal and op == self.MIN_OPERATION:
+                elif value < chunkVal and op == self.MAX_OPERATION:
                     value = chunkVal
-
         return value
 
     def get_aggregate_min(self, field):
