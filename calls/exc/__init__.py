@@ -3,3 +3,6 @@ class InvalidExtension(Exception):
 
 class UnknownOperation(Exception):
     """Error for an unknown/unimplemented operation"""
+
+class AggregationFailed(Exception):
+    """Error to raise when failing to aggregate"""

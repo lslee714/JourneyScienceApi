@@ -1,10 +1,11 @@
 import numpy as np
 import pandas as pd
+import statistics
 
 from copy import copy
 from utils import chunkify_big_json
 
-from .exc import UnknownOperation
+from .exc import UnknownOperation, AggregationFailed
 
 class UploadFieldAggregator:
     """Given a AggregateField, returns a json of an aggregate function of that field requested Uploads """
@@ -103,10 +104,31 @@ class UploadFieldAggregator:
 
     def get_aggregate_mean(self, aggregateField):
         """Get the aggregate mean"""
-        meansToWeight = {}
+        allMeans = []
         for upload in self.uploads:
-            uploadMeans = []
+            chunkMeanWeights = []
             chunks = chunkify_big_json(upload.filepath)
+            items = 0
             for chunk in chunks:
-                chunkVal = chunk[aggregateField].mean()
-                uploadMeans.append(chunkVal)
+                try:
+                    chunkMember = self.get_chunk_member(chunk, aggregateField)
+                except (KeyError, IndexError): #skip ones that arent applicable for the query
+                    continue
+
+                chunkMember.replace('', np.NaN, inplace=True)
+                chunkMember.dropna(inplace=True)
+                try:
+                    series = chunkMember.apply(float)
+                except ValueError:
+                    raise AggregationFailed('Cannot get mean for requested query')
+                items += len(series)
+                chunkMeanWeight = series.mean() * len(series)
+                chunkMeanWeights.append(chunkMeanWeight)
+            if not chunkMeanWeights or not items > 0:
+                raise AggregationFailed("Something went wrong, please verify your query.")
+
+            allMeans.append(sum(chunkMeanWeights)/items)
+
+        return statistics.mean(allMeans)
+
+
