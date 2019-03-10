@@ -11,6 +11,7 @@ angular.module("calls")
             return $http.post('', uploadData, options);
         };
         this.getFieldAggregate = function(aggregateData){
+            console.log(aggregateData)
             var query = $httpParamSerializer(aggregateData);
             var aggregateUrl = 'fields' + '?' + query;
             return $http.get(aggregateUrl);

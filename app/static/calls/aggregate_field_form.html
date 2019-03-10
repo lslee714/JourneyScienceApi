@@ -3,10 +3,23 @@
         <strong>Aggregate Field (exact match, case insensitive):</strong>
     </label>
     <div class="row">
+        <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+            <label class="btn btn-warning active">
+                <input type="radio" name='aggregate' ng-model="aggregateData.aggregate" value="min" checked> Min
+            </label>
+            <label class="btn btn-warning">
+                <input type="radio" name='aggregate' ng-model="aggregateData.aggregate" value="max"> Max
+            </label>
+            <label class="btn btn-warning">
+                <input type="radio" name='aggregate' ng-model="aggregateData.aggregate" value="mean"> Mean
+            </label>
+        </div>
+    </div>
+    <div class="row">
         <input type="text" placeholder="Enter field name here"
-               class="form-control col-md-8" id="field-input" ng-model="aggregateField.field;"/>
+               class="form-control col-md-8" id="field-input" ng-model="aggregateData.field;"/>
         <button type="button" loading-button="getAggregatePromise"
-                class="btn btn-info col-md-4" ng-click="getFieldAggregate()" ng-disabled="!aggregateField.field">
+                class="btn btn-info col-md-4" ng-click="getFieldAggregate()" ng-disabled="!aggregateData.field">
             Get Aggregate
         </button>
     </div>
