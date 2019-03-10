@@ -1,3 +1,4 @@
+from flask import url_for
 
 
 class UploadJson:
@@ -12,8 +13,10 @@ class UploadJson:
         id = self.upload.id
         ts = self.upload.ts_uploaded.isoformat()
         filename = self.upload.source_filename
+        downloadUrl = url_for('calls.download_upload', idUpload=self.upload.id)
         return {
             'id': id,
             'ts': ts,
-            'filename': filename
+            'filename': filename,
+            'downloadUrl': downloadUrl
         }

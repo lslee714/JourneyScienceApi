@@ -1,4 +1,4 @@
-from flask import render_template, request, jsonify
+from flask import render_template, request, jsonify, abort, send_file
 
 from app import session
 from app.app_config import AppConfig
@@ -35,3 +35,11 @@ def register(blueprint):
         """Send the current uploads to the client"""
         uploads = session.query(Upload).order_by(Upload.ts_uploaded.desc()).all()
         return jsonify({'data': [UploadJson(upload)() for upload in uploads]})
+
+    @blueprint.route('/uploads/<idUpload>')
+    def download_upload(idUpload):
+        """Download the upload"""
+        upload = session.query(Upload).get(idUpload)
+        if not upload:
+            abort(404)
+        return send_file(upload.filepath)

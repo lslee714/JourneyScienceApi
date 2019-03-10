@@ -1,4 +1,5 @@
 from datetime import datetime
+from flask import url_for
 from unittest import TestCase
 
 from models import Upload
@@ -23,9 +24,14 @@ class test_call(TestCase):
         upload = Upload(id=id, ts_uploaded=ts, source_filename=filename)
         uploadJson = UploadJson(upload)
 
+        #Not ideal, but this is a unittest so remove flask integration dependency
+        #I could hardcode or hack the test script more to get the app
+        #but I "expect" url_for from flask to not be broken
+        uploadJson = uploadJson().pop('downloadUrl')
+
         expectedResult = {
             'id': id,
             'ts': ts.isoformat(),
-            'filename': filename
+            'filename': filename,
         }
         self.assertEqual(uploadJson(), expectedResult)
