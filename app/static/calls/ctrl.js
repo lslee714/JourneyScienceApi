@@ -17,6 +17,7 @@ angular.module("calls")
 
         $scope.payload = {};
         $scope.uploads = [];
+        $scope.uploadsToAggregate = [];
 
         $scope.load = function(){
             CallsApiService.getUploads().then(
