@@ -14,6 +14,10 @@ angular.module("calls")
             }
             $window.scrollTo(0,0);
         };
+        $scope.messages = []
+        $scope.handleResponse = function(response){
+            $scope.messages.push(response.data);
+        };
 
         $scope.payload = {};
         $scope.uploads = [];

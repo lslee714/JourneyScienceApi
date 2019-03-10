@@ -9,9 +9,11 @@ angular.module('utils')
                     var promise = parser(scope);
                     if (promise) {
                         var loadingDom = $("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span>");
+                        elem.prop('disabled', true);
                         elem.append(loadingDom)
                         promise.finally(function() {
-                            loadingDom.remove();
+                            elem.prop('disabled', false);
+                            loadingDom.remove()
                         });
                     }
                 });
