@@ -36,7 +36,7 @@ class test_get_abs_path(TestCase):
         """Given a valid upload record, should return the expected filename"""
         testUploadTs = datetime.now()
         validUpload = Upload(id=1, ts_uploaded=testUploadTs)
-        extension = 'gz'
+        extension = 'zip'
         mockfileStorage = Mock(filename=f'test.{extension}')
         uploadFile = UploadFile(validUpload, mockfileStorage)
         expectedResult = f"{TEST_BASE_PATH}/{testUploadTs.year}/{testUploadTs.month}/{testUploadTs.day}/" + \

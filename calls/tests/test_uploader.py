@@ -43,7 +43,7 @@ class test_upload(TestCase):
         """An uploadable file should be written out to disk"""
         testPath = '/test/path'
         validUpload = Upload(id=1, ts_uploaded=datetime.now())
-        uploadableMockfileStorage = Mock(filename='test.gz')
+        uploadableMockfileStorage = Mock(filename='test.zip')
         uploadFile = UploadFile(validUpload, uploadableMockfileStorage)
         writeBinaryMode = 'wb'
 

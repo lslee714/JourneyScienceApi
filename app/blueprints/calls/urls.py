@@ -47,6 +47,5 @@ def register(blueprint):
     @blueprint.route('/fields')
     def get_aggregated_field():
         """Return the requested field as a file"""
-        aggregateQuery = request.args.get('field')
-        #Do stuff
+        aggregateQuery = request.args
         return jsonify({})

@@ -11,6 +11,9 @@ $nice-spacing: 20px;
         position: fixed;
         margin-top: 125px;
         margin-left: $nice-spacing;
+        .btn {
+            color: white;
+        }
     }
 }
 

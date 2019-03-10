@@ -4,7 +4,7 @@ from .upload_path_manager import UploadPathManager
 
 class Uploader:
     """Uploads calls"""
-    SUPPORTED_EXTENSIONS = frozenset({'gz', 'zip'})
+    SUPPORTED_EXTENSIONS = frozenset({'zip'})
 
     def __init__(self, basePath):
         self.pathManager = UploadPathManager(basePath)

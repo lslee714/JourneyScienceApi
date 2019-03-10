@@ -20,7 +20,7 @@ class test_call(TestCase):
         """A flushed and available upload should return its id and uploaded ts"""
         id = 1
         ts = datetime.now()
-        filename = 'test.gz'
+        filename = 'test.zip'
         upload = Upload(id=id, ts_uploaded=ts, source_filename=filename)
         uploadJson = UploadJson(upload)
 

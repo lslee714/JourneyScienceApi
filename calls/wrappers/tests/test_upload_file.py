@@ -18,7 +18,7 @@ class test_extension(TestCase):
 
     def test_with_multiple_periods(self):
         """Regardless of the number of periods, the extension should be correct """
-        EXPECTED_EXTENSION = 'gz'
+        EXPECTED_EXTENSION = 'zip'
 
         upload = Upload()
         mockfileStorage = Mock(filename=f'test.file.with.a.weird.name.{EXPECTED_EXTENSION}')
@@ -28,7 +28,7 @@ class test_extension(TestCase):
 
     def test_with_a_normal_name(self):
         """Given a 'normal' filename, the extension should be correct"""
-        EXPECTED_EXTENSION = 'gz'
+        EXPECTED_EXTENSION = 'zip'
 
         upload = Upload()
         mockfileStorage = Mock(filename=f'test_file.{EXPECTED_EXTENSION}')
