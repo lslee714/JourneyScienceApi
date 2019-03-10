@@ -21,8 +21,8 @@ angular.module("calls")
         $scope.load = function(){
             UploadApiService.getUploads().then(
                 function(response){
-                    var responseData = response.data;
-                    angular.extend($scope.uploads, responseData.data);
+                   var responseData = response.data;
+                   $scope.uploads = responseData.data;
                 },function(error){
                     $scope.handleErrors(error.data)
                 }
