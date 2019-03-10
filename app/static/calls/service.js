@@ -1,6 +1,6 @@
 "use strict";
 angular.module("calls")
-    .service('CallsApiService', ['$http', function($http){
+    .service('CallsApiService', ['$http', '$httpParamSerializer', function($http, $httpParamSerializer){
         this.getUploads = function(){
             var uploadUrl = 'uploads';
             return $http.get(uploadUrl);
@@ -11,7 +11,8 @@ angular.module("calls")
             return $http.post('', uploadData, options);
         };
         this.getFieldAggregate = function(aggregateData){
-            var aggregateUrl = 'fields';
-            return $http.get(aggregateUrl, aggregateData);
+            var query = $httpParamSerializer(aggregateData);
+            var aggregateUrl = 'fields' + '?' + query;
+            return $http.get(aggregateUrl);
         };
     }]);

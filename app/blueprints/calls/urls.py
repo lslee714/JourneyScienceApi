@@ -43,3 +43,10 @@ def register(blueprint):
         if not upload:
             abort(404)
         return send_file(upload.filepath)
+
+    @blueprint.route('/fields')
+    def get_aggregated_field():
+        """Return the requested field as a file"""
+        aggregateQuery = request.args.get('field')
+        #Do stuff
+        return jsonify({})

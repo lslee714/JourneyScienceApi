@@ -4,9 +4,9 @@
     </label>
     <div class="row">
         <input type="text" placeholder="Enter field name here"
-               class="form-control col-md-8" id="field-input" ng-model="aggregateField"/>
+               class="form-control col-md-8" id="field-input" ng-model="aggregateField.field;"/>
         <button type="button" loading-button="getAggregatePromise"
-                class="btn btn-info col-md-4" ng-click="getFieldAggregate()" ng-disabled="!aggregateField">
+                class="btn btn-info col-md-4" ng-click="getFieldAggregate()" ng-disabled="!aggregateField.field">
             Get Aggregate
         </button>
     </div>
