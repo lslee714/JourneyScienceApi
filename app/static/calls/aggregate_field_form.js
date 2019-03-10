@@ -11,7 +11,6 @@ angular.module('calls')
                     scope.getAggregatePromise.then(
                         function(response){
                         }, function(error){
-                            console.log("Error")
                             scope.handleErrors(error.data);
                         }
                     );
