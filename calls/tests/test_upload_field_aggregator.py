@@ -1,7 +1,7 @@
 import random
 
 from unittest import TestCase
-from unittest.mock import patch, Mock
+from unittest.mock import patch, MagicMock, Mock
 
 from models import Upload
 
@@ -51,6 +51,18 @@ class ChunkWithMinMax:
     def max(self):
         """Implement the max() interface"""
         return self.value
+
+    def replace(self, *args, **kwargs):
+        """Implement the replace() interface"""
+        return self
+
+    def dropna(self, *args, **kwargs):
+        """Implement the dropna() interface"""
+        return self
+
+    def apply(self, *args, **kwargs):
+        """Implement the apply interface"""
+        return self
 
 class test_get_aggregate_min(TestCase):
     """Test cases for the get_aggregate_min method"""
@@ -132,8 +144,9 @@ class test_get_chunk_member(TestCase):
             'testB': 'foo'
         }
         uploads = [Upload() for i in range(5)]
-        aggregator = UploadFieldAggregator(uploads)
         aggregateField = AggregateField(query)
+
+        aggregator = UploadFieldAggregator(uploads)
 
         result = aggregator.get_chunk_member(testChunkStub, aggregateField)
         expectedVal = testChunkStub[query]
@@ -158,10 +171,13 @@ class test_get_chunk_member(TestCase):
     def test_with_only_nested_fields(self):
         """Given an aggregate field with only additional nested fields, should return the corresponding value"""
         queryArgs = ['testA', 'testAnestedVal']
-        testChunkStub = {
+        testChunkStub = MagicMock(return_value={
             'testA': {'testAnestedVal': 'hi'},
             'testB': 'foo'
-        }
+        })
+        #Ignore pandas structure changes
+        testChunkStub.__getitem__.return_value.apply.return_value = testChunkStub.__getitem__.return_value
+
         uploads = [Upload() for i in range(5)]
         aggregator = UploadFieldAggregator(uploads)
         aggregateField = AggregateField(*queryArgs)
@@ -175,17 +191,24 @@ class test_get_chunk_member(TestCase):
          should return the corresponding key value for the position"""
         queryArgs = ['testA', '2', 'testAnestedVal', 'anotherLayer']
         desiredValue = 'find me!'
-        testChunkStub = {
+        testChunkStub = MagicMock(return_value= {
             'testA': [{'testAnestedVal': {'anotherLayer': 'dont find me'}},
                       {'testAnestedVal': {'anotherLayer': desiredValue}},
                       {'testAnestedVal': {'anotherLayer': 'dont find me'}}],
             'testB': 'foo'
-        }
+        })
 
-        uploads = [Upload() for i in range(5)]
-        aggregator = UploadFieldAggregator(uploads)
         aggregateField = AggregateField(*queryArgs)
+        uploads = [Upload() for i in range(5)]
 
-        result = aggregator.get_chunk_member(testChunkStub, aggregateField)
-        expectedVal = desiredValue
-        self.assertEqual(result, expectedVal)
+        with patch('calls.upload_field_aggregator.pd.Series') as seriesPatch:
+            seriesApplyMock = MagicMock()
+            seriesPatch.return_value.apply = seriesApplyMock
+
+            aggregator = UploadFieldAggregator(uploads)
+
+            result = aggregator.get_chunk_member(testChunkStub, aggregateField)
+            expectedVal = desiredValue
+            seriesApplyMock.assert_called_with(seriesPatch)
+            for nestedField in aggregateField.nested_fields:
+                seriesApplyMock.return_value.__getitem__.assert_called()

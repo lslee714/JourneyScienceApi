@@ -1,3 +1,7 @@
+import numpy as np
+import pandas as pd
+
+from copy import copy
 from utils import chunkify_big_json
 
 from .exc import UnknownOperation
@@ -19,7 +23,7 @@ class UploadFieldAggregator:
             self.MEAN_OPERATION: self.get_aggregate_mean
         }
         if operation not in operationMap:
-            raise UnknownOperation(f"Requested operation {operation} unknown/not yet implemented.")
+            raise UnknownOperation(f"Requested operation {operation} unknown/not implemented.")
         return operationMap[operation]
 
     def aggregate(self, aggregateField, operation):
@@ -29,27 +33,36 @@ class UploadFieldAggregator:
 
     def get_chunk_member(self, chunk, aggregateField):
         """Given an aggregate field, grab the associated member from the chunk"""
+
+        #ASSUMES a
+        #{ key: [ {}, {}... {} ] } or
+        #{ key: {}...n} or
+        #{key: val} structure
+        #could make this a fancy recursive flattener,
+        #but at that point would be obtrusive to UX
+        #and probably better to rethink the data formatting/normalizing upstream
+
         mainFieldName = aggregateField.name
         if aggregateField.nested_fields and aggregateField.position is not None:
-            subChunk = chunk[mainFieldName][aggregateField.position]
-            nestedFields = aggregateField.nested_fields
+            subChunk = pd.Series(chunk[mainFieldName][aggregateField.position])
+            nestedFields = copy(aggregateField.nested_fields)
             while nestedFields:
                 topNestedName = nestedFields.pop(0)
-                subChunk = subChunk[topNestedName]
+                subChunk = subChunk.apply(pd.Series)[topNestedName]
             return subChunk
 
         elif aggregateField.nested_fields:
             subChunk = chunk[mainFieldName]
-            while aggregateField.nested_fields:
-                topNestedName = aggregateField.nested_fields.pop(0)
-                subChunk = subChunk[topNestedName]
-            return subChunk
+            aggregateFields = copy(aggregateField.nested_fields)
+            while aggregateFields:
+                topNestedName = aggregateFields.pop(0)
+                subChunk = subChunk.apply(pd.Series)[topNestedName]
+            return subChunk #last item will be value
 
         elif aggregateField.position is not None:
             return chunk[mainFieldName][aggregateField.position]
         else:
             return chunk[mainFieldName]
-
 
     def _get_min_max(self, aggregateField, op):
         """Common functionality between aggregating min/max"""
@@ -57,8 +70,21 @@ class UploadFieldAggregator:
         for upload in self.uploads:
             chunks = chunkify_big_json(upload.filepath)
             for chunk in chunks:
-                chunkMember= self.get_chunk_member(chunk, aggregateField)
-                chunkVal = getattr(chunkMember, op)()
+                try:
+                    chunkMember = self.get_chunk_member(chunk, aggregateField)
+                except (KeyError, IndexError): #skip ones that arent applicable for the query
+                    continue
+                chunkMember.replace('', np.NaN, inplace=True)
+                chunkMember.dropna(inplace=True)
+                try:
+                    series = chunkMember.apply(float)
+                    chunkVal = float(getattr(series, op)())
+                except ValueError:
+                    series = chunkMember
+                    chunkVal = getattr(series, op)()
+
+                if chunkVal is None:
+                    continue
                 if value is None:
                     value = chunkVal
                 elif value > chunkVal and op == self.MIN_OPERATION:
