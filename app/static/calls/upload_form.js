@@ -1,6 +1,6 @@
 "use strict";
 angular.module("calls")
-    .directive('uploadForm', ['$parse', 'UploadApiService', function($parse, UploadApiService){
+    .directive('uploadForm', ['$parse', 'CallsApiService', function($parse, CallsApiService){
         return {
             restrict: 'E',
             replace: true,
@@ -25,7 +25,7 @@ angular.module("calls")
                 scope.upload = function(){
                     var formData = new FormData();
                     formData.append('file', scope.uploadFile);
-                    scope.uploadPromise = UploadApiService.createUpload(formData, {
+                    scope.uploadPromise = CallsApiService.createUpload(formData, {
                         //angularjs is bad at file data for some reason, override angularjs serialization
                         transformRequest: angular.identity,
                         headers: {'Content-Type': undefined}

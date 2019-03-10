@@ -1,6 +1,6 @@
 "use strict";
 angular.module("calls")
-    .controller('CallsCtrl', ['$scope', 'UploadApiService', function($scope, UploadApiService){
+    .controller('CallsCtrl', ['$scope', 'CallsApiService', function($scope, CallsApiService){
         $scope.errors = [];
         $scope.handleErrors = function(error) {
             var errorMsg = error.error;
@@ -18,7 +18,7 @@ angular.module("calls")
         $scope.uploads = [];
 
         $scope.load = function(){
-            UploadApiService.getUploads().then(
+            CallsApiService.getUploads().then(
                 function(response){
                    var responseData = response.data;
                    $scope.uploads = responseData.data;

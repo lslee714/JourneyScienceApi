@@ -1,0 +1,13 @@
+<form name="aggregateFieldForm" class="aggregate-form">
+    <label for="field-input">
+        <strong>Aggregate Field (exact match, case insensitive):</strong>
+    </label>
+    <div class="row">
+        <input type="text" placeholder="Enter field name here"
+               class="form-control col-md-8" id="field-input" ng-model="aggregateField"/>
+        <button type="button" loading-button="getAggregatePromise"
+                class="btn btn-info col-md-4" ng-click="getFieldAggregate()" ng-disabled="!aggregateField">
+            Get Aggregate
+        </button>
+    </div>
+</form>
