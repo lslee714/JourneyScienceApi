@@ -1,3 +1,4 @@
+from pathlib import Path
 #Since flask requires the application context, run unittest inside the context of it
 from unittest import defaultTestLoader, TextTestRunner
 
@@ -15,12 +16,12 @@ if __name__ == '__main__':
                         help='The type of app config to run')
     args = argParser.parse_args()
 
-    verbosity = 1 #default verbosity of unittest
+    verbosity = 1 #Just use default verbosity
 
     appConfig = get_config(args.config)
 
     app = create_app(appConfig)
     with app.test_request_context() as appContext:
-        discoveredTests = defaultTestLoader.discover('.')
+        discoveredTests = defaultTestLoader.discover(Path(__file__).parent)
         runner = TextTestRunner(verbosity=verbosity)
         runner.run(discoveredTests)
