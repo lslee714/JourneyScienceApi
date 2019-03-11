@@ -1,6 +1,11 @@
 #virtual environment, feel free to setup yours however
 venv/
 
+#generated files
+templates.js
+dist.js
+dist-min.js
+
 #environment file
 env.sh
 
@@ -8,4 +13,5 @@ __pycache__
 
 *.css*
 
+#npm stuff, used for gulp
 node_modules
