@@ -33,6 +33,17 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr ng-if="!uploads.length">
+                        <td>
+                            Nothing yet uploaded!
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
                     <tr ng-repeat="upload in uploads" upload-tr>
                     </tr>
                 </tbody>
@@ -42,19 +53,5 @@
 {% endblock %}
 
 {% block script %}
-
-    <script src="{{ url_for('static', filename='utils/_module.js') }}"></script>
-    <script src="{{ url_for('static', filename='utils/loading_button.js') }}"></script>
-    <script src="{{ url_for('static', filename='utils/error_alert.js') }}"></script>
-    <script src="{{ url_for('static', filename='utils/success_alert.js') }}"></script>
-    <script src="{{ url_for('static', filename='utils/td_checkbox.js') }}"></script>
-
-    <script src="{{ url_for('static', filename='calls/_module.js') }}"></script>
-    <script src="{{ url_for('static', filename='calls/config.js') }}"></script>
-    <script src="{{ url_for('static', filename='calls/ctrl.js') }}"></script>
-    <script src="{{ url_for('static', filename='calls/service.js') }}"></script>
-    <script src="{{ url_for('static', filename='calls/upload_form.js') }}"></script>
-    <script src="{{ url_for('static', filename='calls/upload_tr.js') }}"></script>
-    <script src="{{ url_for('static', filename='calls/aggregate_field_form.js') }}"></script>
-
+    <script src="{{ url_for('static', filename='dist/dist-min.js') }}"></script>
 {% endblock %}
