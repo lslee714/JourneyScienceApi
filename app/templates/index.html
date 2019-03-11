@@ -1,12 +1,41 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-    Calls
+    Journey Science API
 {% endblock %}
 
 {% block body %}
-<main>
-    <div class="alert alert-success">Stuff</div>
-
-</main>
+    <div class="jumbotron jumbotron-fluid js-jumbotron">
+        <div class="container">
+            <h1 class="display-4">
+                Journey Science API
+            </h1>
+            <p class="lead">
+                This application fronts utilities powered by the Journey Science API. <br>
+                Below are links to the available utilities.
+            </p>
+        </div>
+    </div>
+    <div class="js-links">
+        <div class="row">
+            <h3>Available Utilities:</h3>
+        </div>
+        <div class="row">
+            <ol class="api-links">
+                <li>
+                    <a href="{{ url_for('calls.index') }}">
+                        Journey Calls
+                    </a>
+                    <ol class="not-a-list">
+                        <li>
+                            Upload and store journey call data
+                        </li>
+                        <li>
+                            Aggregate journey call attributes (min/max/mean currently supported)
+                        </li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+    </div>
 {% endblock %}

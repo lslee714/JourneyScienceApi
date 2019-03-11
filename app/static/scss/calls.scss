@@ -1,19 +1,36 @@
 $nice-spacing: 20px;
+$nice-padding: 2rem;
+$fixed-header-height-spacing: 50px;
 
 .contents {
-    margin-top: 50px;
-    .upload-form {
-        position: fixed;
-        margin-left: $nice-spacing;
-        margin-top: $nice-spacing;
+    margin-top: $fixed-header-height-spacing;
+}
+
+.upload-form {
+    position: fixed;
+    margin-left: $nice-spacing;
+    margin-top: $nice-spacing;
+}
+
+.aggregate-form {
+    position: fixed;
+    margin-top: $fixed-header-height-spacing + 75px;
+    margin-left: $nice-spacing;
+    .btn {
+        color: white;
     }
-    .aggregate-form {
-        position: fixed;
-        margin-top: 125px;
-        margin-left: $nice-spacing;
-        .btn {
-            color: white;
-        }
+}
+
+.js-jumbotron {
+    padding-top: $nice-padding;
+    padding-bottom: $nice-padding;
+}
+
+.js-links {
+    margin-top: $fixed-header-height-spacing;
+    margin-left: $nice-spacing * 5;
+    .api-links {
+        list-style: circle;
     }
 }
 
@@ -22,4 +39,8 @@ $nice-spacing: 20px;
     .navbar-item {
         color: white;
     }
+}
+
+.not-a-list {
+    list-style: none;
 }
