@@ -61,4 +61,5 @@ def register(blueprint):
         aggregateFieldArgs = [queryArg.strip() for queryArg in fieldQuery.split(',')]
         aggregateField = AggregateField(*aggregateFieldArgs)
         aggregatedValue = aggregator.aggregate(aggregateField, operationQuery)
-        return jsonify({'data': f'The {operationQuery} of {fieldQuery} is {aggregatedValue}'})
+        return jsonify({'data': f'The {operationQuery} of {fieldQuery} for uploads\
+            with ID {", ".join(uploadIdsQuery)} is {aggregatedValue}'})
