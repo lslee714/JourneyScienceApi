@@ -13,6 +13,6 @@
     Recommend using env.sh.template as a boilerplate
     <li>$ source env.sh </li>
     <li>$ alembic upgrade heads</li>
-    <li>(Optional)$ python run_app_tests.py (runs unittest in app context)</li>
+    <li>(Optional)$ python run_app_tests.py (runs unittest in app context) OR python -m unittest (but that will fail on some app unittests)</li>
     <li>$ python run.py</li>
 </ol>
