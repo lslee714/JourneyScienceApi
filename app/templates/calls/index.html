@@ -33,6 +33,17 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr ng-if="!uploads.length">
+                        <td>
+                            Nothing yet uploaded!
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
                     <tr ng-repeat="upload in uploads" upload-tr>
                     </tr>
                 </tbody>
