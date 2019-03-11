@@ -5,7 +5,7 @@
 <h3>To run locally:</h3>
 (Assumed to be have python3.6+ and associated pip available in current working path)
 <br>
-$python3.6 -m venv &lt;directory&gt; will initialiaze a python3.6 virtual environment in &lt;directory&gt; <br>
+$python3.6 -m venv &lt;directory&gt; will initialize a python3.6 virtual environment in &lt;directory&gt; <br>
 and $source &lt;directory&gt;/bin/activate will activate it
 <br>
 <ol>
