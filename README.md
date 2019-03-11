@@ -20,3 +20,7 @@ and $source &lt;directory&gt;/bin/activate will activate it
     <li>(Optional)$ python run_app_tests.py (runs unittest in app context) OR python -m unittest (but that will fail on some app unittests)</li>
     <li>$ python run.py</li>
 </ol>
+
+
+<h4>Note</h4>
+<p>in models/calls/upload.py, the __tableargs__ definition is commented out. This is a developmental change, sqlite does not support schemas, so when the ORM adds the schema name in the query, it all goes haywire. If you choose to use a different database, please uncomment it! </p>
