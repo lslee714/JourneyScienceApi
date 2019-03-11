@@ -11,6 +11,8 @@
     <li>Create and adjust env.sh in root directory 
     (/some/path/to/journey_science) 
     Recommend using env.sh.template as a boilerplate
+    <li>$ npm install (may need to update node if you get errors)<li>
+    <li>$ gulp (the above step should have installed it but if not npm install -g gulp will work, or however else you want to install gulp)</li>
     <li>$ source env.sh </li>
     <li>$ alembic upgrade heads</li>
     <li>(Optional)$ python run_app_tests.py (runs unittest in app context)</li>
