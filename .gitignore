@@ -7,3 +7,5 @@ env.sh
 __pycache__
 
 *.css*
+
+node_modules
