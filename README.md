@@ -24,3 +24,11 @@ and $source &lt;directory&gt;/bin/activate will activate it
 
 <h4>Note</h4>
 <p>in models/calls/upload.py, the __tableargs__ definition is commented out. This is a developmental change, sqlite does not support schemas, so when the ORM adds the schema name in the query, it all goes haywire. If you choose to use a different database, please uncomment it! </p>
+
+<h4>Things left to do</h4>
+<ul>
+    <li>Some async task runnner like celery, to handle the aggregating</li>
+    <li>Refactor/clean up the aggregator class, that thing is... unwieldy</li>
+    <li>Better running script so less things to type when running</li>
+    <li>Deployment setup, automated, ideally</li>
+</ul>
