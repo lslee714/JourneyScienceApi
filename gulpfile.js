@@ -4,6 +4,8 @@ var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
 var minify = require('gulp-minify');
 var templateCache = require('gulp-angular-templatecache');
+var sass = require('gulp-sass');
+var rename = require('gulp-rename');
 
 
 gulp.task('utilsTemplates', function (done) {
@@ -37,9 +39,17 @@ gulp.task('concat', function(done) {
 gulp.task('minify', function(done) {
   gulp.src(['app/static/dist/dist.js'])
     .pipe(minify())
-    .pipe(gulp.dest('app/static/dist'))
+    .pipe(gulp.dest('app/static/dist'));
      done()
 });
 
+gulp.task('sass', function(done) {
+  gulp.src('app/static/scss/journey.scss')
+  .pipe(sass().on('error', sass.logError))
+  .pipe(rename('dist.css'))
+  .pipe(gulp.dest('app/static/dist'));
+   done()
+});
 
-gulp.task('default', gulp.series('utilsTemplates', 'callsTemplates', 'concat', 'minify'))
+
+gulp.task('default', gulp.series('utilsTemplates', 'callsTemplates', 'concat', 'minify', 'sass'))
