@@ -10,7 +10,7 @@ class Uploader:
         self.pathManager = UploadPathManager(basePath)
 
     def upload(self, uploadFile):
-        """Create, upload and set the file patht"""
+        """Create, upload and set the file path"""
         if not self.can_upload(uploadFile):
             raise InvalidExtension("Cannot upload this file extension")
         uploadFilePath = self.pathManager.get_abs_path(uploadFile)
