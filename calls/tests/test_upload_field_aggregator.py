@@ -155,7 +155,7 @@ class test_get_chunk_member(TestCase):
     def test_with_only_position(self):
         """Given an aggregate field with a position, method should return the corresponding value for the key"""
         queryArgs = ['testA', '1']
-        correspondingPosition = int(queryArgs[1]) - 1#aggregate field accounts for 0 based indexing
+        correspondingPosition = int(queryArgs[1]) - 1 #aggregate field accounts for 0 based indexing
         testChunkStub = {
             'testA': ['foo', 'bar', 'hello', 'world'],
             'testB': 'foo'
@@ -208,7 +208,6 @@ class test_get_chunk_member(TestCase):
             aggregator = UploadFieldAggregator(uploads)
 
             result = aggregator.get_chunk_member(testChunkStub, aggregateField)
-            expectedVal = desiredValue
             seriesApplyMock.assert_called_with(seriesPatch)
             for nestedField in aggregateField.nested_fields:
                 seriesApplyMock.return_value.__getitem__.assert_called()
