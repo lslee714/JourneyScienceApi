@@ -20,7 +20,7 @@
     <li>$ alembic upgrade heads</li>
 </ol>
 
-<h3>Running the application<h3>
+<h3>Running the application</h3>
 <ol>
     <li>$ source env.sh (If environment not loaded) 
     <li> <strong>*</strong>  $ python run_app_tests.py 
