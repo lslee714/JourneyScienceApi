@@ -38,6 +38,5 @@
 <ul>
     <li>Some async task runnner like celery, to handle the aggregating</li>
     <li>Refactor/clean up the aggregator class, that thing is... unwieldy</li>
-    <li>Better running script so less things to type when running</li>
     <li>Deployment setup, automated, ideally</li>
 </ul>
