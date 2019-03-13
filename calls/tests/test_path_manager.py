@@ -13,7 +13,6 @@ TEST_BASE_PATH = '/test/path'
 class test_get_abs_path(TestCase):
     """Test cases for the get_abs_path method"""
 
-
     def test_without_id(self):
         """Attempting to get a path without an ID should raise an error"""
         pathManager = UploadPathManager(TEST_BASE_PATH)
@@ -41,7 +40,6 @@ class test_get_abs_path(TestCase):
         uploadFile = UploadFile(validUpload, mockfileStorage)
         expectedResult = f"{TEST_BASE_PATH}/{testUploadTs.year}/{testUploadTs.month}/{testUploadTs.day}/" + \
             f"{testUploadTs.strftime(UploadPathManager.FILENAME_FORMAT)}_{validUpload.id}.{extension}"
-
 
         result = UploadPathManager(TEST_BASE_PATH).get_abs_path(uploadFile)
         self.assertEqual(str(result), expectedResult)

@@ -9,7 +9,6 @@ class UploadPathManager:
     def __init__(self, basePath):
         self.basePath = Path(basePath)
 
-
     def _get_filename(self, uploadFile):
         """Return the name for an upload"""
         upload = uploadFile.upload

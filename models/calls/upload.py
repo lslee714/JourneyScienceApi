@@ -4,6 +4,7 @@ from models.base import Base
 
 class Upload(Base):
     """Represents the upload table"""
+    #Purposefully commented out for sqlite development
     # __table_args__ = {
     #     'schema': 'calls'
     # }

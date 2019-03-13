@@ -50,7 +50,7 @@ def register(blueprint):
 
     @blueprint.route('/fields')
     def get_aggregated_field():
-        """Return the requested field as a file"""
+        """Return the aggregated field from the upload(s)"""
         aggregateQuery = request.args
         operationQuery = aggregateQuery['aggregate']
         fieldQuery = aggregateQuery['field'].strip()
