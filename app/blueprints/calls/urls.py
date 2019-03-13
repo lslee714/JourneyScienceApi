@@ -1,4 +1,4 @@
-from celery.states import FAILURE, SUCCESS, PENDING
+from celery.states import FAILURE, SUCCESS, PENDING, STARTED
 from flask import render_template, request, jsonify, abort, send_from_directory, url_for
 from pathlib import Path
 
@@ -84,7 +84,7 @@ def register(blueprint):
             httpCode = 200
         elif task.state == FAILURE:
             httpCode = 500
-        elif task.state == PENDING:
+        elif task.state in [PENDING, STARTED]:
             httpCode = 102
         else: #assume success
             httpCode = 200
