@@ -14,7 +14,7 @@ angular.module('calls')
                     scope.getAggregatePromise = CallsApiService.getFieldAggregate(scope.aggregateData);
                     scope.getAggregatePromise.then(
                         function(response){
-                            scope.handleResponse(response.data);
+                            scope.statusUrls.push(response.data.statusUrl);
                         }).catch(function(error){
                             scope.handleErrors(error.data);
                         });

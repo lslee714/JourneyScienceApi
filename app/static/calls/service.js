@@ -12,7 +12,10 @@ angular.module("calls")
         };
         this.getFieldAggregate = function(aggregateData){
             var query = $httpParamSerializer(aggregateData);
-            var aggregateUrl = 'fields' + '?' + query;
+            var aggregateUrl = 'fields/async' + '?' + query;
             return $http.get(aggregateUrl);
+        };
+        this.getTaskStatus = function(statusUrl){
+           return $http.get(statusUrl);
         };
     }]);
