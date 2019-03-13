@@ -1,7 +1,9 @@
-from flask import render_template, request, jsonify, abort, send_from_directory
+from celery.states import FAILURE, SUCCESS, PENDING
+from flask import render_template, request, jsonify, abort, send_from_directory, url_for
 from pathlib import Path
 
 from app import session
+from app.async import aggregate
 from app.app_config import AppConfig
 from calls import Uploader, UploadFile, UploadFieldAggregator
 from calls.wrappers import AggregateField
@@ -63,3 +65,27 @@ def register(blueprint):
         aggregatedValue = aggregator.aggregate(aggregateField, operationQuery)
         return jsonify({'data': f'The {operationQuery} of {fieldQuery} for uploads\
             with ID {", ".join(uploadIdsQuery)} is {aggregatedValue}'})
+
+    @blueprint.route('/fields/async')
+    def get_aggregated_field_async():
+        """Return the requested field as a file"""
+        aggregateQuery = request.args
+        operationQuery = aggregateQuery['aggregate']
+        fieldQuery = aggregateQuery['field'].strip()
+        uploadIdsQuery = aggregateQuery.getlist('uploads')
+        aggregateFieldArgs = [queryArg.strip() for queryArg in fieldQuery.split(',')]
+        aggregatedValue = aggregate.apply_async(args=[uploadIdsQuery, operationQuery, *aggregateFieldArgs])
+        return jsonify({'statusUrl': url_for('.get_aggregate_status', idTask=aggregatedValue.id)}), 202
+
+    @blueprint.route('/tasks/<idTask>')
+    def get_aggregate_status(idTask):
+        task = aggregate.AsyncResult(idTask)
+        if task.state == SUCCESS:
+            httpCode = 200
+        elif task.state == FAILURE:
+            httpCode = 500
+        elif task.state == PENDING:
+            httpCode = 102
+        else: #assume success
+            httpCode = 200
+        return jsonify({'status': task.status, 'result': task.result}), httpCode
