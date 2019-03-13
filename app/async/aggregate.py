@@ -18,9 +18,9 @@ def aggregate(self, uploadIds, operationQuery, *aggregateArgs):
         aggregatedValue = uploadAggregator.aggregate(aggregateField, operationQuery)
         result = f'The {operationQuery} of {aggregateField.name} for uploads\
                     with ID {", ".join(uploadIds)} is {aggregatedValue}'
+        return {'status': 'Aggregation completed!',
+                'message': result}
+
     except AggregationFailed as e:
         self.update_state(state=FAILURE, meta={'status': 'Aggregation failed',
                                                 'result': str(e)})
-
-    return {'status': 'Aggregation completed!',
-            'result': result}
