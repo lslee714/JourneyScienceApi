@@ -88,4 +88,4 @@ def register(blueprint):
             httpCode = 102
         else: #assume success
             httpCode = 200
-        return jsonify({'status': task.status, 'result': task.result}), httpCode
+        return jsonify({'state': task.state, 'result': task.result}), httpCode
