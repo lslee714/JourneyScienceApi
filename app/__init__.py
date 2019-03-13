@@ -1,3 +1,4 @@
+from celery import Celery
 from flask import Flask, g
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -9,6 +10,9 @@ def create_app(config):
     global session
     app = Flask(__name__)
     app.config.from_object(config)
+
+    celery = Celery(app.name, broker=app.config['CELERY_BROKER_URI'])
+    celery.conf.update(app.config)
 
     engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], connect_args={'check_same_thread': False})
     Session = sessionmaker(bind=engine)
