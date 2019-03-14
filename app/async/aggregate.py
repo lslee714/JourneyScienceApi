@@ -1,11 +1,8 @@
-import traceback
-
 from celery.exceptions import Ignore
 from celery.states import FAILURE
 
 from app import celery, session
 from calls import UploadFieldAggregator
-from calls.exc import AggregationFailed
 from calls.wrappers import AggregateField
 from models import Upload
 
@@ -22,7 +19,7 @@ def aggregate(self, uploadIds, operationQuery, *aggregateArgs):
                     with ID {", ".join(uploadIds)} is {aggregatedValue}'
         return {'message': result}
 
-    except AggregationFailed as e:
+    except Exception as e:
         self.update_state(state=FAILURE, meta={
             'exc_type': type(e).__name__,
             'exc_message': [str(e)]
