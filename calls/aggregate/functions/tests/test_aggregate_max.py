@@ -54,7 +54,7 @@ class test_get_aggregate_max(TestCase):
             self.assertEqual(result, max(sameVals))
 
     def test_with_different_values(self):
-        """Method should return the min value given a list of random ints"""
+        """Method should return the max value given a list of random ints"""
         upload = Upload()
 
         testField = AggregateField(*['test'])

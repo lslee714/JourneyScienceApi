@@ -10,7 +10,7 @@ from ..aggregate_min import get_aggregate_min
 
 
 class ChunkWithMin:
-    """A stub with expected interface that the get_aggregate_min methods expects"""
+    """A stub with expected interface that the get_aggregate_min function expects"""
     def __init__(self, value):
         self.value = value
 
@@ -19,7 +19,7 @@ class ChunkWithMin:
         return self
 
     def min(self):
-        """Implement the max() interface"""
+        """Implement the mean() interface"""
         return self.value
 
     def replace(self, *args, **kwargs):
