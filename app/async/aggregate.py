@@ -1,5 +1,4 @@
 from celery.states import FAILURE
-from celery.exceptions import CeleryError
 
 from app import celery, session
 from calls import UploadFieldAggregator
@@ -24,3 +23,4 @@ def aggregate(self, uploadIds, operationQuery, *aggregateArgs):
     except AggregationFailed as e:
         self.update_state(state=FAILURE, meta={'status': 'Aggregation failed',
                                                 'result': str(e)})
+        return FAILURE
