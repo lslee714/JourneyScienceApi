@@ -34,21 +34,5 @@ angular.module("calls")
                     $scope.handleErrors(error.data)
                 });
         };
-
         $scope.load();
-
-        $scope.statusUrls = [];
-        $scope.pollPromise = null;
-        $scope.pollStatuses = function(){
-            angular.forEach($scope.statusUrls, function(url){
-                $scope.pollPromise = CallsApiService.getTaskStatus(url).then(function(response){
-                    console.log(response);
-                    if(response.data && response.data.state=='SUCCESS'){
-                        $scope.messages.push(response.data.result.message);
-                    }else if(response.data.state=='FAILURE'){
-                        $scope.errors.push(response.data.result.status + ' ' + response.data.result.result);
-                    };
-                });
-            });
-        };
     }]);
