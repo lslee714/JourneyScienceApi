@@ -1,13 +1,14 @@
 import random
 
 from unittest import TestCase
-from unittest.mock import patch, MagicMock, Mock
+from unittest.mock import patch, MagicMock
 
 from models import Upload
 
-from ..exc import UnknownOperation
+from calls.exc import UnknownOperation
+from calls.wrappers import AggregateField
+
 from ..upload_field_aggregator import UploadFieldAggregator
-from ..wrappers import AggregateField
 
 
 class test_get_method_for_operation(TestCase):
@@ -77,7 +78,7 @@ class test_get_aggregate_min(TestCase):
         sameVals = [0 for i in range(5)]
         mockedReturnVals = [ChunkWithMinMax(v) for v in sameVals]
 
-        with patch('calls.upload_field_aggregator.chunkify_big_json') as chunkFnMock:
+        with patch('calls.aggregate.upload_field_aggregator.chunkify_big_json') as chunkFnMock:
             chunkFnMock.return_value = mockedReturnVals
             result = testAggregator.get_aggregate_min(testField)
             self.assertEqual(result, min(sameVals))
@@ -92,7 +93,7 @@ class test_get_aggregate_min(TestCase):
         randomVals = [random.choice([i for i in range(5)]) for i in range(5)]
         mockedReturnVals = [ChunkWithMinMax(v) for v in randomVals]
 
-        with patch('calls.upload_field_aggregator.chunkify_big_json') as chunkFnMock:
+        with patch('calls.aggregate.upload_field_aggregator.chunkify_big_json') as chunkFnMock:
             chunkFnMock.return_value = mockedReturnVals
             result = testAggregator.get_aggregate_min(testField)
             self.assertEqual(result, min(randomVals))
@@ -110,7 +111,7 @@ class test_get_aggregate_max(TestCase):
         sameVals = [0 for i in range(5)]
         mockedReturnVals = [ChunkWithMinMax(v) for v in sameVals]
 
-        with patch('calls.upload_field_aggregator.chunkify_big_json') as chunkFnMock:
+        with patch('calls.aggregate.upload_field_aggregator.chunkify_big_json') as chunkFnMock:
             chunkFnMock.return_value = mockedReturnVals
 
             result = testAggregator.get_aggregate_max(testField)
@@ -126,7 +127,7 @@ class test_get_aggregate_max(TestCase):
         randomVals = [random.choice([i for i in range(5)]) for i in range(5)]
         mockedReturnVals = [ChunkWithMinMax(v) for v in randomVals]
 
-        with patch('calls.upload_field_aggregator.chunkify_big_json') as chunkFnMock:
+        with patch('calls.aggregate.upload_field_aggregator.chunkify_big_json') as chunkFnMock:
             chunkFnMock.return_value = mockedReturnVals
 
             result = testAggregator.get_aggregate_max(testField)
@@ -201,7 +202,7 @@ class test_get_chunk_member(TestCase):
         aggregateField = AggregateField(*queryArgs)
         uploads = [Upload() for i in range(5)]
 
-        with patch('calls.upload_field_aggregator.pd.Series') as seriesPatch:
+        with patch('calls.aggregate.upload_field_aggregator.pd.Series') as seriesPatch:
             seriesApplyMock = MagicMock()
             seriesPatch.return_value.apply = seriesApplyMock
 
