@@ -80,12 +80,13 @@ def register(blueprint):
     @blueprint.route('/tasks/<idTask>')
     def get_aggregate_status(idTask):
         task = aggregate.AsyncResult(idTask)
-        if task.state == FAILURE or (task.state == SUCCESS and task.get() == FAILURE):
-            httpCode = 500
-        elif task.state == SUCCESS:
+        if task.state == SUCCESS:
             httpCode = 200
+            resultArg = dict(data=task.result.get('message'))
         elif task.state in [PENDING, STARTED]:
             httpCode = 102
+            resultArg = dict(data=None)
         else: #assume something went wrong
             httpCode = 500
-        return jsonify({'state': task.state, 'result': task.result}), httpCode
+            resultArg = dict(error=str(task.result))
+        return jsonify({'state': task.state, **resultArg}), httpCode
