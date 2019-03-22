@@ -14,6 +14,7 @@
     <li>Create and adjust an environment file (e.g. env.sh) in root directory 
     (/some/path/to/journey_science) 
     Recommend using env.sh.template as a boilerplate
+    Example of database uri: "<sql db type>:///path/to/db", e.g. "sqlite:////$(pwd)/test.db"
     <li>$ npm install (may need to update node if you get errors)</li>
     <li>$ gulp (the above step should have installed it but if not npm install -g gulp will work, or however else you want to install gulp)</li>
     <li>$ source env.sh (or file from step #2)</li>
