@@ -1,6 +1,7 @@
 "use strict";
 angular.module("calls")
     .controller('CallsCtrl', ['$scope', '$window', 'CallsApiService', function($scope, $window, CallsApiService){
+
         $scope.errors = [];
         $scope.handleErrors = function(error) {
             var errorMsg = error.error;
@@ -14,6 +15,7 @@ angular.module("calls")
             }
             $window.scrollTo(0,0);
         };
+
         $scope.messages = []
         $scope.handleResponse = function(response){
             $scope.messages.push(response.data);
@@ -31,8 +33,6 @@ angular.module("calls")
                 }).catch(function(error){
                     $scope.handleErrors(error.data)
                 });
-
         };
         $scope.load();
-
     }]);

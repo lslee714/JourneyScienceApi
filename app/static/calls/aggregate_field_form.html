@@ -23,7 +23,7 @@
     </div>
     <div class="row">
         <input type="text" placeholder="Enter field name here"
-               class="form-control col-md-8" id="field-input" ng-model="aggregateData.field;"/>
+               class="form-control col-md-6" id="field-input" ng-model="aggregateData.field;"/>
         <button type="button" loading-button="getAggregatePromise"
                 class="btn btn-info col-md-4" ng-click="getFieldAggregate()"
                 ng-disabled="!aggregateData.field || !aggregateData.aggregate || !uploadsToAggregate.length">
