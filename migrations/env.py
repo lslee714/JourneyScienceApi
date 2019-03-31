@@ -11,10 +11,13 @@ from alembic import context
 #project specific
 import os
 import sys
+
 #make app available to import from
 sys.path[0:0] = [os.path.join(os.path.dirname(__file__), '..')]
 from configs import Config
 
+#Import ops to register custom operations
+from migrations import ops
 from models.base import Base
 
 # this is the Alembic Config object, which provides
