@@ -30,6 +30,11 @@
     <li>$ python run.py</li>
 </ol>
 
+<h3>Running the celery worker</h3>
+<ol>
+    <li>TODO - outline here </li>    
+</ol>
+
 <strong>*</strong> Optional step
 
 <h4>Note</h4>
