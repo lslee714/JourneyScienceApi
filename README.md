@@ -37,6 +37,5 @@
 
 <h4>Things left to do</h4>
 <ul>
-    <li>Refactor/clean up the aggregator class, that thing is... unwieldy</li>
     <li>Deployment setup, automated, ideally</li>
 </ul>
