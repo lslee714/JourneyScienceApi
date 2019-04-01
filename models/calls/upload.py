@@ -4,10 +4,9 @@ from models.base import Base
 
 class Upload(Base):
     """Represents the upload table"""
-    #Purposefully commented out for sqlite development
-    # __table_args__ = {
-    #     'schema': 'calls'
-    # }
+    __table_args__ = {
+        'schema': 'calls'
+    }
     __tablename__ = 'upload'
     id = Column(Integer, primary_key=True)
     filepath = Column(String, unique=True)
