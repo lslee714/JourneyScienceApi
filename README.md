@@ -1,6 +1,6 @@
 <h1>JourneyScienceApi</hi>
 
-<h2>A microservice written in Flask with Python3.6+</h2>
+<h2>A simple project for aggregating journey data in Flask with Python3.6+</h2>
 
 (Assumed to be have python3.6+ and associated pip available in current working path)
 <br>
